@@ -1,0 +1,16 @@
+﻿gaming_default_participant_trigger = {
+  is_ai = yes
+  NOT = {
+    this = root
+	}
+  is_alive = yes
+  is_imprisoned = no
+}
+
+gaming_end_events_participant_trigger = {
+	NOT = {
+		this = scope:host
+	}
+  is_alive = yes
+  is_imprisoned = no
+}

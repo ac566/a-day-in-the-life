@@ -1,0 +1,15 @@
+﻿l_english:
+  trait_lifestyle_gamer:0 "Gamer"
+
+  trait_t_gamer_1:0 "Novice Gamer"
+  trait_t_gamer_1_desc:1 "Little better than a beginner"
+  trait_t_gamer_1_character_desc:0 "[ROOT.GetCharacter.GetFirstNameNoTooltip] plays games from time to time, but still can get lost in the complexity of rules or the wealth of strategy employed by the true masters"
+
+  trait_t_gamer_2:0 "Experienced Gamer"
+  trait_t_gamer_2_desc:1 "Experienced strategist"
+  trait_t_gamer_2_character_desc:0 "[ROOT.GetCharacter.GetFirstNameNoTooltip] is a strong opponent, verging on the edge of greatness, though it be a long road"
+
+  trait_t_gamer_3:0 "Master Gamer"
+  trait_t_gamer_3_desc:1 "Formiddable opponent with a masterful grasp of strategy"
+  trait_t_gamer_3_character_desc:0 "[ROOT.GetCharacter.GetFirstNameNoTooltip] is renowned in the world of board gamers. There are lessons to be learn from every game played"
+

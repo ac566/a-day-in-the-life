@@ -1,0 +1,70 @@
+﻿# Adds tracking for gamer lifestyle trait and increments it when called again
+gamer_points_gain_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = gamer_lifestyle_progress
+			}
+		}
+		set_variable = {
+			name = gamer_lifestyle_progress
+			value = $CHANGE$
+		}
+	}
+	else = {
+		change_variable = {
+			name = gamer_lifestyle_progress
+			add = $CHANGE$
+		}
+	}
+	#Random chance of additional point to increase unpredictability
+	random = {
+		chance = 50
+		change_variable = {
+			name = gamer_lifestyle_progress
+			add = 1
+		}
+	}
+}
+
+# Tracks the gamer lifestlye trait progress
+gamer_lifestyle_rank_up_check_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_trait = lifestyle_gamer
+			}
+			var:gamer_lifestyle_progress > gamer_rank_up_1_threshold
+		}
+		set_variable = {
+			name = gamer_lifestyle_progress
+			value = 0
+		}
+		add_trait = t_gamer_1
+	}
+	else_if = {
+		limit = {
+			has_trait = t_gamer_1
+			var:gamer_lifestyle_progress > gamer_rank_up_2_threshold
+		}
+		set_variable = {
+			name = gamer_lifestyle_progress
+			value = 0
+		}
+		change_trait_rank = {
+			trait = lifestyle_gamer
+			rank = 1
+		}
+	}
+	else_if = {
+		limit = {
+			has_trait = t_gamer_2
+			var:gamer_lifestyle_progress > gamer_rank_up_3_threshold
+		}
+		remove_variable = gamer_lifestyle_progress
+		change_trait_rank = {
+			trait = lifestyle_gamer
+			rank = 1
+		}
+	}
+}

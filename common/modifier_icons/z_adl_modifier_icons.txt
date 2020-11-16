@@ -1,0 +1,5 @@
+﻿gaming = {
+  positive = "gfx/interface/icons/modifiers/gaming.dds"
+  negative = "gfx/interface/icons/modifiers/gaming.dds"
+  default = yes
+}

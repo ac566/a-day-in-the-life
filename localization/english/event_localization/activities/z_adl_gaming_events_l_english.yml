@@ -1,0 +1,26 @@
+﻿l_english:
+  gaming.0001.opening:0 "[actor.Custom2('AppropriateGreeting', ROOT.Char)]"
+  gaming.0001.desc:0 "[actor.Custom2('AppropriateGreeting', ROOT.Char)] I would love to join you.\n I will be arriving shortly."
+  gaming.0001.a:0 "This will be exciting"
+
+  gaming.0002.opening:0 "[actor.Custom2('AppropriateGreeting', ROOT.Char)]"
+  gaming.0002.desc:0 "[actor.Custom2('AppropriateGreeting', ROOT.Char)] I will not join you."
+  gaming.0002.a:0 "Maybe next time"
+
+  gaming.2001.t:0 "Games about to begin"
+  gaming.2001.desc:0 "Which game do you want to play?"
+  gaming.2001.a:0 "Chess"
+  gaming.2001.a.tt:0 "Chess is an ancient game of strategy from India that relies heavily on both [learning|E] and [martial|E]"
+  gaming.2001.b:0 "Go"
+  gaming.2001.b.tt:0 "Go is a game from the Far East and realies heavily on one's intelligence and [learning|E]"
+  gaming.2001.c:0 "Wargame"
+  gaming.2001.c.tt:0 "Wargames are ancient and unlike either chess or go have a much clearer relationship with a player's [martial|E] prowess"
+
+  gaming.2002.t:0 "Something went wrong"
+  gaming.2002.desc:0 "Oh no!"
+  gaming.2002.a:0 "shit"
+
+  gaming.2501.t:0 "Warm Welcome"
+  gaming.2501.desc:0 "Host welcomes you graciously"
+  gaming.2501.a:0 "Let's begin"
+

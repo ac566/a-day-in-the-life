@@ -1,0 +1,102 @@
+﻿# Standard Values
+@pos_compat_high = 30
+@pos_compat_medium = 15
+@pos_compat_low = 5
+@neg_compat_high = -30
+@neg_compat_medium = -15
+@neg_compat_low = -5
+
+t_gamer_1 = {
+	index = 500
+	lifestyle = yes
+  group = lifestyle_gamer
+  level = 1
+	opposites = {
+	}
+	same_opinion = 10
+	martial = 1
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						exists = this
+					}
+				}
+				desc = trait_t_gamer_1_desc
+			}
+			desc = trait_t_gamer_1_character_desc
+		}
+	}
+	ai_boldness = low_positive_ai_value
+	compatibility = {
+		t_gamer_1 = @pos_compat_low
+		t_gamer_2 = @pos_compat_medium
+		t_gamer_3 = @pos_compat_high
+	}
+}
+
+t_gamer_2 = {
+	index = 501
+	lifestyle = yes
+	group = lifestyle_gamer
+  level = 2
+	opposites = {
+	}
+	same_opinion = 10
+	martial = 2
+	monthly_prestige = 0.5
+	monthly_martial_lifestyle_xp_gain_mult = 0.1
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						exists = this
+					}
+				}
+				desc = trait_t_gamer_2_desc
+			}
+			desc = trait_t_gamer_2_character_desc
+		}
+	}
+	ai_boldness = medium_positive_ai_value
+	compatibility = {
+		t_gamer_1 = @pos_compat_low
+		t_gamer_2 = @pos_compat_medium
+		t_gamer_3 = @pos_compat_high
+	}
+}
+
+t_gamer_3 = {
+	index = 502
+	lifestyle = yes
+	group = lifestyle_gamer
+  level = 3
+	opposites = {
+  }
+  same_opinion = 10
+	martial = 3
+	monthly_prestige = 1
+	monthly_martial_lifestyle_xp_gain_mult = 0.2
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						exists = this
+					}
+				}
+				desc = trait_t_gamer_3_desc
+			}
+			desc = trait_t_gamer_3_character_desc
+		}
+	}
+	ai_boldness = high_positive_ai_value
+	compatibility = {
+		t_gamer_1 = @pos_compat_low
+		t_gamer_2 = @pos_compat_medium
+		t_gamer_3 = @pos_compat_high
+	}
+}

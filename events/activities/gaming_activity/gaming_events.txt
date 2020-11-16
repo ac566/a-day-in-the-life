@@ -1,0 +1,246 @@
+﻿# Generic gaming events
+namespace = gaming
+# ###############################
+# 0001-0999 - Invitation Handling
+# ###############################
+# Character Accepts
+gaming.0001 = {
+	type = letter_event
+  sender = scope:recipient
+  opening = {
+    desc = gaming.0001.opening
+  }
+  desc = gaming.0001.desc
+	# Give options to decide which game to play
+	option = {
+		name = gaming.0001.a
+	}
+}
+
+# Character Declines
+gaming.0002 = {
+  type = letter_event
+  sender = scope:recipient
+  opening = {
+    desc = gaming.0002.opening
+  }
+  desc = gaming.0002.desc
+	option = {
+		name = gaming.0002.a
+	}
+}
+
+# ##########################
+# 2001-2999 - Startup events
+# ##########################
+
+gaming.2001 = {
+	type = character_event
+	title = gaming.2001.t
+	desc = gaming.2001.desc
+	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	left_portrait = {
+		character = root.var:gaming_opponent
+		animation = happiness
+	}
+	trigger = {
+		this = scope:activity.activity_owner
+	}
+	# Give options to decide which game to play
+	option = {
+		name = gaming.2001.a
+		trigger_event = gaming_chess.0001
+    custom_tooltip = gaming.2001.a.tt
+	}
+	option = {
+		name = gaming.2001.b
+		trigger_event = gaming_go.0001
+    custom_tooltip = gaming.2001.b.tt
+	}
+	option = {
+		name = gaming.2001.c
+    trigger_event = gaming_wargame.0001
+    custom_tooltip = gaming.2001.c.tt
+	}
+	# After main event is selected, send event to participants
+	after = {
+		scope:activity = {
+			every_participant = {
+				trigger_event = gaming.2501
+			}
+		}
+	}
+}
+
+# For Guest
+gaming.2501 = {
+	type = character_event
+	title = gaming.2501.t
+	desc = gaming.2501.desc
+	theme = martial
+	left_portrait = {
+		character = scope:activity.activity_owner
+		animation = happiness
+	}
+	trigger = {
+		# Guests only.
+		NOT = {
+			this = scope:activity.activity_owner
+		}
+	}
+	option = {
+		name = gaming.2501.a
+	}
+}
+
+# Activity no longer valid
+gaming.2002 = {
+	type = character_event
+	title = gaming.2002.t
+	desc = gaming.2002.desc
+	theme = martial
+	left_portrait = root
+	option = {
+		name = gaming.2002.a
+		scope:activity = {
+			complete_activity = no
+		}
+	}
+}
+
+#
+#
+#
+gaming.9000 = {
+	type = character_event
+	hidden = yes
+	trigger = {
+		exists = scope:activity
+	}
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					scope:activity = {
+						any_participant = {
+							count = all
+							trigger_if = {
+								limit = {
+									is_alive = yes
+									is_imprisoned = no
+								}
+								save_temporary_scope_as = participant_check
+								scope:activity = {
+									is_target_in_variable_list = {
+										name = finished_participants
+										target = scope:participant_check
+									}
+								}
+							}
+							trigger_else = {
+								always = yes
+							}
+						}
+					}
+					AND = {
+						trigger_if = {
+							limit = {
+								exists = scope:activity.var:attempted_to_end_gaming
+							}
+							scope:activity.var:attempted_to_end_gaming > 2
+						}
+						trigger_else = {
+							always = no
+						}
+					}
+				}
+      }
+      trigger_event = gaming.9001
+		}
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:activity.var:attempted_to_end_gaming
+				}
+			}
+			scope:activity = {
+				set_variable = {
+					name = attempted_to_end_gaming
+					value = 1
+				}
+			}
+		}
+		else = {
+			scope:activity = {
+				change_variable = {
+					name = attempted_to_end_gaming
+					add = 1
+				}
+			}
+		}
+		trigger_event = {
+			id = gaming.9000
+			days = 5
+		}
+	}
+}
+
+gaming.9001 = {
+	type = character_event
+	hidden = yes
+	trigger = {
+    exists = scope:activity
+	}
+	immediate = {
+		scope:activity = {
+			activity_owner = {
+				save_scope_as = host
+				if = {
+					limit = {
+						local_var:gaming_type = gaming_type_chess
+					}
+					trigger_event = gaming_chess.9001
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_go
+					}
+					trigger_event = gaming_go.9001
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_wargame
+					}
+					trigger_event = gaming_wargame.9001
+				}
+			}
+			every_participant = {
+				limit = {
+					gaming_end_events_participant_trigger = yes
+				}
+				if = {
+					limit = {
+						local_var:gaming_type = gaming_type_chess
+					}
+					trigger_event = gaming_chess.9002
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_go
+					}
+					trigger_event = gaming_go.9002
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_wargame
+					}
+					trigger_event = gaming_wargame.9002
+				}
+			}
+		}
+	}
+}

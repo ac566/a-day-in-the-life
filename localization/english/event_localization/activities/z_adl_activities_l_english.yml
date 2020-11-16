@@ -1,0 +1,20 @@
+﻿l_english:
+  activity_gaming:0 "Gaming"
+  activity_gaming_desc:0 "A friend game of strategy"
+  activity_gaming_name:0 "[ACTIVITY.GetOwner.GetNamePossessiveOrMy|U] Gaming Match"
+  activity_gaming_owner:0 "Host"
+
+  gaming_gain_advantage_small:0 "You #P gain a small advantage#! in the match"
+  gaming_gain_advantage_medium:0 "You #P gain a sizeable advantage#! in the match"
+  gaming_gain_advantage_large:0 "You #P gain a significant advantage#! in the match"
+  gaming_lose_advantage_small:0 "You #N lose a small advantage in#! the match"
+  gaming_lose_advantage_medium:0 "You #N lose a sizeable advantage#! in the match"
+  gaming_lose_advantage_large:0 "You #N lose a significant advantage#! in the match"
+
+  gaming_slight_win:0 "#P You Win#!, stealing vicotry from the grasp of defeat"
+  gaming_decisive_win:0 "#P You Win a resounding victory#!"
+  gaming_crushing_win:0 "#P It's like you weren't even playing the same game#!"
+  gaming_slight_loss:0 "#N You Lose#!, but only by a margin!"
+  gaming_decisive_loss:0 "#N You Lose#!, it wasn't even close!"
+  gaming_crushing_loss:0 "#N You never stood a chance#!"
+  gaming_draw:0 "You Draw!"

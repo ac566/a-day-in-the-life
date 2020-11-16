@@ -1,0 +1,8 @@
+﻿l_english:
+  invite_gaming_interaction:0 "Invite to Game"
+  invite_gaming_interaction_desc:0 "Invites the character to play a game of strategy"
+  invited_to_game_already:0 "Invited to game already"
+
+  GAMING_ACTOR_RECENTLY_GAMED:0 "You recently played games"
+  GAMING_RECIPIENT_RECENTLY_GAMED:0 "[CHARACTER.GetShortUIName|U] recently played games"
+  GAMING_CHARACTER_UNAVAILABLE:0 "[CHARACTER.GetShortUIName|U] is unavailable to play any games"

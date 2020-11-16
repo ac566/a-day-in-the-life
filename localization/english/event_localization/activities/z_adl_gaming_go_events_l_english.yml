@@ -1,0 +1,32 @@
+﻿l_english:
+  gaming_go.1001.a:0 "You play it safely"
+  gaming_go.1001.b:0 "You take a risk"
+  gaming_go.1001.c:0 "You take a very risky move"
+  gaming_go.1001.t:0 "go 1 Title"
+	gaming_go.1001.desc:0 "go 1 Description"
+
+  gaming_go.1002.a:0 "You play it safely"
+  gaming_go.1002.b:0 "You take a risk"
+  gaming_go.1002.c:0 "You take a very risky move"
+  gaming_go.1002.t:0 "go 2 Title"
+	gaming_go.1002.desc:0 "go 2 Description"
+
+  gaming_go.1003.a:0 "You play it safely"
+  gaming_go.1003.b:0 "You take a risk"
+  gaming_go.1003.c:0 "You take a very risky move"
+  gaming_go.1003.t:0 "go 3 Title"
+	gaming_go.1003.desc:0 "go 3 Description"
+
+  gaming_go.1004.a:0 "You play it safely"
+  gaming_go.1004.b:0 "You take a risk"
+  gaming_go.1004.c:0 "You take a very risky move"
+  gaming_go.1004.t:0 "go 4 Title"
+	gaming_go.1004.desc:0 "go 4 Description"
+
+  gaming_go.9001.a:0 "go End Option"
+  gaming_go.9001.t:0 "go Host End Event"
+	gaming_go.9001.desc:0 "go Description"
+
+  gaming_go.9002.a:0 "end"
+  gaming_go.9002.t:0 "go Guest End Event"
+	gaming_go.9002.desc:0 "go Description"

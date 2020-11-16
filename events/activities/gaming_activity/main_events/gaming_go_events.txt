@@ -1,0 +1,231 @@
+﻿namespace = gaming_go
+
+# ##########################
+# 0001-0999 - Startup events
+# ##########################
+
+gaming_go.0001 = {
+  type = character_event
+  hidden = yes
+
+
+  immediate = {
+    gaming_go_setup_effect = yes
+  }
+}
+
+# ################################################
+# 1001-1999 - Main events during the game activity
+# ################################################
+
+gaming_go.1001 = {
+	type = character_event
+	title = gaming_go.1001.t
+  desc = gaming_go.1001.desc
+  theme = martial
+	trigger = {
+		NOT = {
+			exists = local_var:had_1001
+		}
+		scope:activity = {
+			any_participant = {
+				gaming_default_participant_trigger = yes
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:gaming_opponent
+		animation = happiness
+	}
+	immediate = {
+		set_local_variable = {
+			name = had_1001
+			value = yes
+		}
+	}
+	option = {
+		name = gaming_go.1001.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_fire_random_event_effect = yes
+		}
+	}
+}
+
+gaming_go.1002 = {
+	type = character_event
+	title = gaming_go.1002.t
+	desc = gaming_go.1002.desc
+  theme = martial
+	trigger = {
+		NOT = {
+			exists = local_var:had_1002
+		}
+		scope:activity = {
+			any_participant = {
+				gaming_default_participant_trigger = yes
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:gaming_opponent
+		animation = happiness
+	}
+	immediate = {
+		set_local_variable = {
+			name = had_1002
+			value = yes
+		}
+	}
+	option = {
+		name = gaming_go.1002.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_fire_random_event_effect = yes
+		}
+	}
+}
+
+gaming_go.1003 = {
+	type = character_event
+	title = gaming_go.1003.t
+	desc = gaming_go.1003.desc
+  theme = martial
+	trigger = {
+		NOT = {
+			exists = local_var:had_1003
+		}
+		scope:activity = {
+			any_participant = {
+				gaming_default_participant_trigger = yes
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:gaming_opponent
+		animation = happiness
+	}
+	immediate = {
+		set_local_variable = {
+			name = had_1003
+			value = yes
+		}
+	}
+	option = {
+		name = gaming_go.1003.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_fire_random_event_effect = yes
+		}
+	}
+}
+
+gaming_go.1004 = {
+	type = character_event
+	title = gaming_go.1004.t
+	desc = gaming_go.1004.desc
+  theme = martial
+	trigger = {
+		NOT = {
+			exists = local_var:had_1004
+		}
+		scope:activity = {
+			any_participant = {
+				gaming_default_participant_trigger = yes
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:gaming_opponent
+		animation = happiness
+	}
+	immediate = {
+		set_local_variable = {
+			name = had_1004
+			value = yes
+		}
+	}
+	option = {
+		name = gaming_go.1004.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_fire_random_event_effect = yes
+		}
+	}
+}
+
+# ##########################################################
+# 9000-9999 - Cleanup events and fallback events
+# ##########################################################
+
+# Host end event
+gaming_go.9001 = {
+	type = character_event
+	title = gaming_go.9001.t
+	desc = gaming_go.9001.desc
+	theme = martial
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:gaming_opponent
+		animation = personality_bold
+	}
+	option = {
+		name = gaming_go.9001.a
+		gaming_end_host_effect = yes
+	}
+}
+
+# Guest end event
+gaming_go.9002 = {
+	type = character_event
+	title = gaming_go.9002.t
+	desc = gaming_go.9002.desc
+	theme = martial
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = scope:host
+		animation = happiness
+	}
+	option = {
+		name = gaming_go.9002.a
+		gaming_end_guest_effect = yes
+	}
+}
+
+# Default event - just retrigger the selector
+gaming_go.9999 = {
+  type = character_event
+	hidden = yes
+	trigger = {
+		exists = scope:activity
+	}
+	immediate = {
+		gaming_fire_random_event_effect = yes
+	}
+}

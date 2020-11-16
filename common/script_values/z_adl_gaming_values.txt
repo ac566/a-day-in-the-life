@@ -1,0 +1,129 @@
+﻿min_default_gaming_events = 1
+max_default_gaming_events = 1
+chance_of_extra_gaming_events = 0
+gaming_initial_event_delay = 5
+min_gaming_event_spacing = 10
+max_gaming_event_spacing = 15
+max_gaming_duration = {
+  value = 0
+  add = max_gaming_event_spacing
+	multiply = {
+		value = max_default_gaming_events
+		subtract = 1
+	}
+	add = gaming_initial_event_delay
+	add = 1	# To be sure no values get set on the last tick
+}
+
+# Gamer trait rank tracking
+gamer_rank_up_1_threshold = 8
+gamer_rank_up_2_threshold = 24
+gamer_rank_up_3_threshold = 48
+
+
+
+# Game type enumeration
+gaming_type_chess = 0
+gaming_type_go = 1
+gaming_type_wargame = 2
+
+# Win chance, the higher the value more often a draw will occur
+gaming_default_win_chance = 50
+
+# Cooldowns
+gaming_host_cooldown = 3
+gaming_guest_cooldown = 3
+
+# Advantage calculations
+gaming_small_advantage = 40
+gaming_medium_advantage = 80
+gaming_large_advantage = 160
+
+gaming_advantage = {
+  value = 0
+
+  if = {
+    limit = {
+      local_var:gaming_type = gaming_type_chess
+    }
+    add = this.martial
+    add = this.learning
+  }
+  else_if = {
+    limit = {
+      local_var:gaming_type = gaming_type_go
+    }
+    add = {
+      value = this.learning
+      multiply = 2
+    }
+  }
+  else_if = {
+    limit = {
+      local_var:gaming_type = gaming_type_wargame
+    }
+    add = {
+      value = this.martial
+      multiply = 2
+    }
+  }
+
+  subtract = 16
+  multiply = 5
+
+  if = {
+    limit = {
+      has_trait = t_gamer_1
+    }
+    add = 25
+  }
+  else_if = {
+    limit = {
+      has_trait = t_gamer_2
+    }
+    add = 50
+  }
+  else_if = {
+    limit = {
+      has_trait = t_gamer_3
+    }
+    add = 100
+  }
+}
+
+gaming_slight_win_threshold = {
+  value = root.var:gaming_opponent.var:gaming_winning_chance
+
+  add = gaming_default_win_chance
+}
+
+
+gaming_decisive_win_threshold = {
+  value = gaming_slight_win_threshold
+
+  add = gaming_default_win_chance
+}
+
+gaming_crushing_win_threshold = {
+  value = gaming_decisive_win_threshold
+
+  add = gaming_default_win_chance
+}
+
+gaming_slight_loss_threshold = {
+  value = root.var:gaming_opponent.var:gaming_winning_chance
+
+  subtract = gaming_default_win_chance
+}
+
+gaming_decisive_loss_threshold = {
+  value = gaming_slight_loss_threshold
+
+  subtract = gaming_default_win_chance
+}
+
+gaming_crushing_loss_threshold = {
+  value = gaming_decisive_loss_threshold
+
+  subtract = gaming_default_win_chance
+}

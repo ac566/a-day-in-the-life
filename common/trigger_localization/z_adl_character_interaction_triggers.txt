@@ -1,0 +1,11 @@
+﻿gaming_character_unavailable = {
+  first_not = GAMING_CHARACTER_UNAVAILABLE
+}
+
+gaming_recipient_recently_gamed = {
+  first_not = GAMING_RECIPIENT_RECENTLY_GAMED
+}
+
+gaming_actor_recently_gamed = {
+  first_not = GAMING_ACTOR_RECENTLY_GAMED
+}
