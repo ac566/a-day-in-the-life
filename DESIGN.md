@@ -8,7 +8,7 @@ These new activities and interactions are meant to tie into existing lifestyles 
 
 Activities will be tied to decisions like the current Host Feast and Call Hunt decisions. Some are focused on specific counties and will be invoked in a dialog similar to the Create Holy Order decision. Some vanilla things will be locked into specific focuses, such as feasting and hunting, but will have analogous stress reducing activities for the given lifestyle.
 
-The following is an incomplete :x:, in-progress :hourglass:, and completed 	:white_check_mark: features, list of planned Character Interactions :couple: and Activities (Decisions) :bell: and is subject to change based on feedback/suggestions:
+The following is a list of incomplete :x:, in-progress :hourglass:, and completed 	:white_check_mark: features, split into planned Character Interactions :couple: and Activities (Decisions) :bell: and is subject to change based on feedback/suggestions:
 
 # Planned Features
 ## Global
