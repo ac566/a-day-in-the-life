@@ -1,3 +1,7 @@
+###
+### This file is modified to not show the declined participants if there are none
+###
+
 
 ######################################################
 ###################### ACTIVITY ######################
@@ -252,6 +256,7 @@ window = {
 					text_label_center = {
 						name = "declined"
 						text = "ACTIVITY_DECLINED"
+            visible = "[Not(IsDataModelEmpty(ActivityWindow.GetActivity.GetDeclined))]"
 					}
 
 					scrollarea = {

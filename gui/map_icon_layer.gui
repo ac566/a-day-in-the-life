@@ -1,3 +1,7 @@
+###
+### This file modifies the original So that Activity Icons actually use the proper icon rather than the feast icon
+###
+
 
 hbox = {
 	name = "layer_hbox"
