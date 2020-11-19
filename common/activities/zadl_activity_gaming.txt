@@ -92,7 +92,7 @@
 		every_participant = {
 			remove_variable = current_opponent
 			remove_variable = current_advantage
-			remove_variable = gaming_won
+			remove_variable = gaming_lost
 		}
 	}
 	# Expiration

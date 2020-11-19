@@ -1,36 +1,40 @@
 ﻿gaming_initial_setup_effect = {
 	scope:activity = {
+		# Add loss counter to everyone
 		every_participant = {
 			limit = {
 				gaming_valid_participant_trigger = yes
 			}
 			set_variable = {
-				name = gaming_won
-				value = 1
+				name = gaming_lost
+				value = 0
 			}
+			add_to_list = active_opponents
 		}
 	}
 }
 
 gaming_setup_effect = {
 	scope:activity = {
-		every_participant = {
-			limit = {
-				var:gaming_won = 1
-				gaming_valid_participant_trigger = yes
-			}
-			add_to_list = active_opponents
+		every_in_list = {
+			list = active_opponents
 			remove_variable = current_advantage
+			remove_variable = current_opponent
 		}
 		every_in_list = {
 			list = active_opponents
-			# Give every participant an opponent
+			limit = {
+				var:gaming_lost < 1
+				gaming_valid_participant_trigger = yes
+			}
+			# Add to done list
 			save_temporary_scope_as = current_participant
+			add_to_list = paired_participants
 			set_variable = {
 				name = current_advantage
 				value = 0
 			}
-			add_to_list = paired_participants
+			# Give every participant an opponent
 			if = {
 				limit = {
 					NOT = {
@@ -63,7 +67,6 @@ gaming_setup_effect = {
 			limit = {
 				gaming_valid_participant_trigger = yes
 			}
-			remove_from_list = active_opponents
 			remove_from_list = paired_participants
 			# Start event loop
 			if = {

@@ -229,7 +229,7 @@ gaming.8001 = {
 			limit = {
 				any_in_list = {
 					list = active_opponents
-					count = 1
+					count < 2
 				}
 			}
 			gaming_end_tournament_effect = yes

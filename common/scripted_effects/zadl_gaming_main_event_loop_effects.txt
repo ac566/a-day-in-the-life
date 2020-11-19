@@ -9,8 +9,9 @@
 			name = num_gaming_events
 			value = 0
 		}
+		gaming_fire_correct_or_default_event_effect = yes
 	}
-	if = {
+	else_if = {
 		limit = {
 			var:num_gaming_events < max_default_gaming_events
 		}
@@ -21,13 +22,17 @@
 		gaming_fire_correct_or_default_event_effect = yes
 	}
 	else = {
-		remove_variable = num_gaming_events
-		save_temporary_scope_as = finished_participant
-		scope:activity = {
-			add_to_variable_list = {
-				name = finished_participants
-				target = scope:finished_participant
-			}
+		gaming_events_end_effect = yes
+	}
+}
+
+gaming_events_end_effect = {
+	remove_variable = num_gaming_events
+	save_temporary_scope_as = finished_participant
+	scope:activity = {
+		add_to_variable_list = {
+			name = finished_participants
+			target = scope:finished_participant
 		}
 	}
 }
@@ -112,28 +117,17 @@ gaming_end_round_effect = {
 }
 
 gaming_end_match_effect = {
-	# Character had no opponent, or opponent is caput
 	if = {
-		limit = {
-			NOT = {
-				gaming_has_opponent_trigger = yes
-			}
-			var:gaming_won = 1
-		}
-		gaming_winner_effect = yes
-	}
-	# Winning
-	else_if = {
 		limit = {
 			gaming_has_opponent_trigger = yes
 		}
+		# Winning
 		if = {
 			limit = {
 				var:current_advantage > gaming_crushing_win_threshold
 			}
 			custom_tooltip = gaming_crushing_win
 			add_prestige = 40
-			gaming_winner_effect = yes
 		}
 		else_if = {
 			limit = {
@@ -141,7 +135,6 @@ gaming_end_match_effect = {
 			}
 			custom_tooltip = gaming_decisive_win
 			add_prestige = 25
-			gaming_winner_effect = yes
 		}
 		else_if = {
 			limit = {
@@ -149,7 +142,6 @@ gaming_end_match_effect = {
 			}
 			custom_tooltip = gaming_slight_win
 			add_prestige = 10
-			gaming_winner_effect = yes
 		}
 		# Losing
 		else_if = {
@@ -180,7 +172,6 @@ gaming_end_match_effect = {
 		else = {
 			custom_tooltip = gaming_draw
 			add_prestige = 5
-			gaming_draw_effect = yes
 		}
 	}
 }
@@ -200,7 +191,7 @@ gaming_end_tournament_effect = {
 			# Winner
 			if = {
 				limit = {
-					var:gaming_won = 1
+					var:gaming_lost < 1
 				}
 				if = {
 					limit = {
@@ -266,21 +257,9 @@ gaming_tournament_loser_effect = {
 	add_prestige = 25
 }
 
-gaming_winner_effect = {
-	remove_variable = current_opponent
-}
-
 gaming_loser_effect = {
 	change_variable = {
-		name = gaming_won
-		subtract = 1
+		name = gaming_lost
+		add = 1
 	}
-	remove_variable = current_opponent
-}
-
-gaming_draw_effect = {
-	var:current_opponent = {
-		gaming_winner_effect = yes
-	}
-	gaming_winner_effect = yes
 }

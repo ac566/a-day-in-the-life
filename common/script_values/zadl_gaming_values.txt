@@ -7,10 +7,7 @@ max_gaming_event_spacing = 15
 max_gaming_duration = {
 	value = 0
 	add = max_gaming_event_spacing
-	multiply = {
-		value = max_default_gaming_events
-		subtract = 1
-	}
+	multiply = max_default_gaming_events
 	add = gaming_initial_event_delay
 	add = 1	# To be sure no values get set on the last tick
 }
