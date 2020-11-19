@@ -1,19 +1,19 @@
 ﻿# Picks out a start event
 gaming_start_events = {
 	events = {
-		gaming.2001
+		gaming.1000
 	}
 }
 
 gaming_chess_event_selection = {
 	trigger = {
 		exists = scope:activity
+		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_chess.1001
 		10 = gaming_chess.1002
 		10 = gaming_chess.1003
-		10 = gaming_chess.1004
 	}
 	fallback = gaming_chess_fallback
 }
@@ -21,6 +21,7 @@ gaming_chess_event_selection = {
 gaming_wargame_event_selection = {
 	trigger = {
 		exists = scope:activity
+		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_wargame.1001
@@ -33,30 +34,42 @@ gaming_wargame_event_selection = {
 gaming_go_event_selection = {
 	trigger = {
 		exists = scope:activity
+		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_go.1001
 		10 = gaming_go.1002
 		10 = gaming_go.1003
-		10 = gaming_go.1004
 	}
 	fallback = gaming_go_fallback
 }
 
+gaming_default_event_selection = {
+	trigger = {
+		exists = scope:activity
+	}
+	events = {
+		gaming.2000
+	}
+}
+
 gaming_chess_fallback = {
 	events = {
-		gaming_chess.9999
+		gaming_chess.1500
+		gaming_chess.1999
 	}
 }
 
 gaming_go_fallback = {
 	events = {
-		gaming_go.9999
+		gaming_go.1500
+		gaming_go.1999
 	}
 }
 
 gaming_wargame_fallback = {
 	events = {
-		gaming_wargame.9999
+		gaming_go.1500
+		gaming_wargame.1999
 	}
 }

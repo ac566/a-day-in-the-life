@@ -1,0 +1,65 @@
+﻿hold_gaming_tournament_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	ai_check_interval = 60
+	cost = {
+		gold = 10		# standard_activity_cost
+	}
+	cooldown = {
+		days = standard_gaming_tournament_cooldown_time
+	}
+	desc = host_feast_decision_opening_desc
+	selection_tooltip = host_feast_decision_tooltip
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier > tier_county
+		OR = {
+			has_focus = martial_strategy_focus
+			has_trait = lifestyle_gamer
+		}
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	effect = {
+		capital_province = {
+			spawn_activity = {
+				type = activity_gaming
+				owner = root
+			}
+		}
+		if = {
+			limit = {
+				has_trait = strategist
+				has_trait = t_gamer_1
+				has_trait = t_gamer_2
+				has_trait = t_gamer_3
+				has_trait = ambitious
+			}
+			stress_impact = {
+				base = gaming_stress_loss_value
+				strategist = activity_stress_loss_impact
+				t_gamer_1 = activity_stress_loss_impact
+				t_gamer_2 = activity_stress_loss_impact
+				t_gamer_3 = activity_stress_loss_impact
+				ambitious = activity_stress_loss_impact
+			}
+		}
+	}
+	ai_potential = {
+		short_term_gold > standard_activity_cost
+		OR = {
+			has_trait = lifestyle_gamer
+		}
+	}
+	ai_will_do = {
+		base = -1000		# TODO change to 35
+		modifier = {
+			add = 30
+			has_trait = lifestyle_gamer
+		}
+		modifier = {
+			add = 35
+			stress > low_stress
+		}
+	}
+}

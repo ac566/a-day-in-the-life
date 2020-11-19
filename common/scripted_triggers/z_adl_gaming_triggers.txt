@@ -1,16 +1,38 @@
 ﻿gaming_default_participant_trigger = {
-  is_ai = yes
-  NOT = {
-    this = root
+	is_ai = yes
+	NOT = {
+		this = root
 	}
-  is_alive = yes
-  is_imprisoned = no
+	gaming_valid_participant_trigger = yes
 }
 
 gaming_end_events_participant_trigger = {
 	NOT = {
 		this = scope:host
 	}
-  is_alive = yes
-  is_imprisoned = no
+	gaming_valid_participant_trigger = yes
+}
+
+gaming_valid_participant_trigger = {
+	is_alive = yes
+	is_imprisoned = no
+}
+
+gaming_tournament_valid_player_trigger = {
+	NOT = {
+		this = scope:activity.activity_owner
+	}
+	is_available_for_activity_trigger = yes
+	gaming_valid_participant_trigger = yes
+	OR = {
+		martial > 8
+		has_trait = lifestyle_gamer
+	}
+}
+
+gaming_has_opponent_trigger = {
+	exists = var:current_opponent
+	var:current_opponent = {
+		gaming_valid_participant_trigger = yes
+	}
 }

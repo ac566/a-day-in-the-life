@@ -1,0 +1,24 @@
+{
+  "files.exclude": {
+    "*.mod": true
+  },
+  "[ck3]": {
+    "files.autoGuessEncoding": true,
+    "files.encoding": "utf8bom",
+    "editor.formatOnSave": true,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.insertSpaces": true,
+    "editor.acceptSuggestionOnEnter": "on"
+  },
+  "[yaml]": {
+    "files.autoGuessEncoding": true,
+    "files.encoding": "utf8bom",
+    "editor.insertSpaces": true,
+    "editor.autoIndent": "none",
+    "editor.wordWrap": "on"
+  },
+}

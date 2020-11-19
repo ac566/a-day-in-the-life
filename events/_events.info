@@ -24,19 +24,19 @@ event_namespace.42 = {
 				animation = animation name
 			}
 			trigerred_animation = ...
-			
+
 			# A list of triggered outfits. The first triggered otfit that passes the trigger check will be used.
 			triggered_outfit = {
 				trigger = ...
 				outfit_tags = ...
 			}
 			triggered_outfit = ...
-			
+
 			outfit_tags = { tag1 tag2 }	# Specifies outfit tags for this portrait in ascending priority (i.e. tag2 will "override" tag1 here if anything with tag2 is found in a specific portrait modifier category)
 			remove_default_outfit = yes/no	# If set to yes, portrait modifier categories in which nothing matches any of the event tags will be disabled completely (no by default)
 			hide_info = yes/no			# If set to yes, only the portrait will be shown, with no identifiable elements (no CoA, tooltips, clicks...) (no by default)
 		}
-	
+
 	# This will be run if a queued event (or one triggered immediately from script) does not fulfil its trigger
 	# Events failing to trigger from an on-action will *not* run this
 	on_trigger_fail = {
@@ -59,11 +59,11 @@ event_namespace.42 = {
 		}
 	}
 	widget = { ... } 		# alternative syntax for a single widget. Follows the same info as the widget in the widgets parameter
-	
+
 	option = { # An option the player/AI can pick
 		# Localization key for the event option button text
 		name = X
-		
+
 		# The effects that will be run when picking the options. Written directly here with no label
 		X..
 

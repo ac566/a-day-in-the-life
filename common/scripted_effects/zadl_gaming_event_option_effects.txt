@@ -1,0 +1,164 @@
+﻿#
+# Match progression
+#
+gaming_gain_small_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		add = gaming_small_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_small
+}
+
+gaming_gain_medium_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		add = gaming_medium_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_medium
+}
+
+gaming_gain_large_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		add = gaming_large_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_large
+}
+
+gaming_lose_small_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_small_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_small
+}
+
+gaming_lose_medium_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_medium_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_medium
+}
+
+gaming_lose_large_advantage_effect = {
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_large_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_large
+}
+
+gaming_low_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_small
+				desc = $P$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+		}
+		50 = {
+			gaming_lose_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_small
+				desc = $N$
+			}
+		}
+	}
+}
+
+gaming_medium_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_medium
+				desc = $P1$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+			gaming_gain_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_small
+				desc = $P2$
+			}
+		}
+		100 = {
+			gaming_lose_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_small
+				desc = $B1$
+			}
+		}
+		100 = {
+			gaming_lose_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_medium
+				desc = $B2$
+			}
+		}
+	}
+}
+
+gaming_high_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_large_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_large
+				desc = $P1$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+			gaming_gain_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_medium
+				desc = $P2$
+			}
+		}
+		150 = {
+			gaming_lose_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_medium
+				desc = $B1$
+			}
+		}
+		150 = {
+			gaming_lose_large_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_large
+				desc = $B2$
+			}
+		}
+	}
+}

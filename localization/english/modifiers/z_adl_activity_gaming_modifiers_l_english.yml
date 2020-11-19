@@ -1,10 +1,9 @@
 ﻿l_english:
-  gaming_chess_modifier:0 "Thinking about chess"
+  gaming_chess_modifier:0 "Recently Played Chess"
   gaming_chess_modifier_desc:0 "[CHARACTER.GetShortUIName|U] recently played an interesting game of chess"
 
-  gaming_go_modifier:0 "Thinking about go"
+  gaming_go_modifier:0 "Recently Played Go"
   gaming_go_modifier_desc:0 "[CHARACTER.GetShortUIName|U] recently played an interesting game of go"
 
-
-  gaming_wargame_modifier:0 "Thinking about wargames"
-  gaming_wargame_modifier_desc:0 "Recently played an interesting war game"
+  gaming_wargame_modifier:0 "Recently Played Wargame"
+  gaming_wargame_modifier_desc:0 "Recently played an interesting wargame"

@@ -1,0 +1,128 @@
+﻿gaming_initial_setup_effect = {
+	scope:activity = {
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+			}
+			set_variable = {
+				name = gaming_won
+				value = 1
+			}
+		}
+	}
+}
+
+gaming_setup_effect = {
+	scope:activity = {
+		every_participant = {
+			limit = {
+				var:gaming_won = 1
+				gaming_valid_participant_trigger = yes
+			}
+			add_to_list = active_opponents
+			remove_variable = current_advantage
+		}
+		every_in_list = {
+			list = active_opponents
+			# Give every participant an opponent
+			save_temporary_scope_as = current_participant
+			set_variable = {
+				name = current_advantage
+				value = 0
+			}
+			add_to_list = paired_participants
+			if = {
+				limit = {
+					NOT = {
+						gaming_has_opponent_trigger = yes
+					}
+				}
+				random_in_list = {
+					list = active_opponents
+					limit = {
+						NOT = {
+							is_in_list = paired_participants
+						}
+					}
+					save_temporary_scope_as = random_participant
+					add_to_list = paired_participants
+					set_variable = {
+						name = current_opponent
+						value = scope:current_participant
+					}
+					scope:current_participant = {
+						set_variable = {
+							name = current_opponent
+							value = scope:random_participant
+						}
+					}
+				}
+			}
+		}
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+			}
+			remove_from_list = active_opponents
+			remove_from_list = paired_participants
+			# Start event loop
+			if = {
+				limit = {
+					local_var:gaming_type = gaming_type_chess
+				}
+				trigger_event = gaming_chess.0001
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_go
+				}
+				trigger_event = gaming_go.0001
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_wargame
+				}
+				trigger_event = gaming_wargame.0001
+			}
+		}
+		activity_owner = {
+			trigger_event = {
+				id = gaming.8000
+				days = max_gaming_duration
+			}
+		}
+	}
+}
+
+gaming_chess_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_chess
+	}
+	trigger_event = {
+		on_action = gaming_chess_event_selection
+		days = gaming_initial_event_delay
+	}
+}
+
+gaming_go_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_go
+	}
+	trigger_event = {
+		on_action = gaming_go_event_selection
+		days = gaming_initial_event_delay
+	}
+}
+
+gaming_wargame_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_wargame
+	}
+	trigger_event = {
+		on_action = gaming_wargame_event_selection
+		days = gaming_initial_event_delay
+	}
+}

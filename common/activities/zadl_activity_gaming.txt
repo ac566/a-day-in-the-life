@@ -1,0 +1,108 @@
+﻿activity_gaming = {
+	expiration_days = 360
+	frame = 1
+	has_activity_window = yes
+	days_until_auto_start = 30
+	color = {
+		0.253906
+		0.867188
+		0.105469
+		1
+	}
+	# Invalidation check
+	valid = {
+		activity_owner = {
+			is_alive = yes
+			is_imprisoned = no
+		}
+	}
+	# Spawn
+	on_spawn = {
+		invite_character_to_activity = activity_owner
+		accept_invitation_for_character = activity_owner
+		activity_owner = {
+			# Invite liege
+			if = {
+				limit = {
+					exists = liege
+					liege = {
+						gaming_tournament_valid_player_trigger = yes
+					}
+				}
+				liege = {
+					add_to_temporary_list = potential_players
+					# Invite fellow vassals
+					every_vassal = {
+						limit = {
+							gaming_tournament_valid_player_trigger = yes
+						}
+						add_to_temporary_list = potential_players
+					}
+				}
+			}
+			# Invite own vassals
+			every_vassal_or_below = {
+				limit = {
+					gaming_tournament_valid_player_trigger = yes
+				}
+				add_to_temporary_list = potential_players
+			}
+			# Invite courtiers, guests, knights
+			every_courtier_or_guest = {
+				limit = {
+					gaming_tournament_valid_player_trigger = yes
+				}
+				add_to_temporary_list = potential_players
+			}
+			# Actually invite characters
+			every_in_list = {
+				list = potential_players
+				scope:activity = {
+					invite_character_to_activity = prev
+				}
+				trigger_event = {
+					id = gaming.0001
+					days = {
+						1
+						5
+					}
+				}
+			}
+		}
+	}
+	# Activation
+	on_activate = {
+		# Send activity start events
+		every_participant = {
+			# Host
+			if = {
+				limit = {
+					this = scope:activity.activity_owner
+				}
+				trigger_event = gaming.1000
+			}
+			# Guest
+			else = {
+				remove_variable = booked_for_a_party
+			}
+		}
+	}
+	# Completion
+	on_complete = {
+		every_participant = {
+			remove_variable = current_opponent
+			remove_variable = current_advantage
+			remove_variable = gaming_won
+		}
+	}
+	# Expiration
+	on_expire = {
+		activity_owner = {
+			trigger_event = gaming.9100
+		}
+	}
+	# Invalidation
+	on_invalidated = {
+		complete_activity = yes
+	}
+}

@@ -1,72 +1,116 @@
 ﻿namespace = gaming_wargame
-
-# ##########################
-# 0001-0999 - Startup events
-# ##########################
-
+#
+# 0001-0999 - Setup
+#
+# Players
 gaming_wargame.0001 = {
-  type = character_event
-  hidden = yes
+	type = character_event
+	title = gaming_wargame.0001.t
+	desc = gaming_wargame.0001.desc
+	theme = martial
+	trigger = {
+		gaming_has_opponent_trigger = yes
+	}
+	on_trigger_fail = {
+		trigger_event = gaming_wargame.0500
+	}
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	left_portrait = {
+		character = root.var:current_opponent
+		animation = happiness
+	}
+	immediate = {
+		gaming_wargame_setup_effect = yes
+	}
+	option = {
+		name = gaming_wargame.0001.a
+	}
+}
 
-  immediate = {
-    gaming_wargame_setup_effect = yes
-  }
+# Setup
+gaming_wargame.0002 = {
+	type = character_event
+	hidden = yes
+	immediate = {
+		set_local_variable = {
+			name = gaming_type
+			value = gaming_type_wargame
+		}
+		gaming_initial_setup_effect = yes
+		gaming_setup_effect = yes
+	}
+}
+
+# Spectators
+gaming_wargame.0500 = {
+	type = character_event
+	title = gaming_wargame.0500.t
+	desc = gaming_wargame.0500.desc
+	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	immediate = {
+		gaming_wargame_setup_effect = yes
+	}
+	option = {
+		name = gaming_wargame.0500.a
+	}
 }
 
 # ################################################
 # 1001-1999 - Main events during the game activity
 # ################################################
-
 gaming_wargame.1001 = {
 	type = character_event
 	title = gaming_wargame.1001.t
-  desc = gaming_wargame.1001.desc
-  theme = martial
+	desc = gaming_wargame.1001.desc
+	theme = martial
 	trigger = {
 		NOT = {
 			exists = local_var:had_1001
 		}
-		scope:activity = {
-			any_participant = {
-				gaming_default_participant_trigger = yes
-			}
-		}
+		gaming_has_opponent_trigger = yes
 	}
 	left_portrait = {
 		character = root
 		animation = happiness
 	}
 	right_portrait = {
-		character = root.var:gaming_opponent
+		character = root.var:current_opponent
 		animation = happiness
 	}
 	immediate = {
 		set_local_variable = {
 			name = had_1001
-			value = yes
+			value = 1
 		}
 	}
 	option = {
-    name = gaming_wargame.1001.a
-    gaming_medium_risk_effect = {
-      P1 = gaming_wargame.1001.a.p1
-      P2 = gaming_wargame.1001.a.p2
-      B1 = gaming_wargame.1001.a.b1
-      B2 = gaming_wargame.1001.a.b2
-    }
+		name = gaming_wargame.1001.a
+		gaming_medium_risk_effect = {
+			P1 = gaming_wargame.1001.a.p1
+			P2 = gaming_wargame.1001.a.p2
+			B1 = gaming_wargame.1001.a.b1
+			B2 = gaming_wargame.1001.a.b2
+		}
 	}
 	option = {
-    name = gaming_wargame.1001.b
-    gaming_high_risk_effect = {
-      P1 = gaming_wargame.1001.b.p1
-      P2 = gaming_wargame.1001.b.p2
-      B1 = gaming_wargame.1001.b.b1
-      B2 = gaming_wargame.1001.b.b2
-    }
+		name = gaming_wargame.1001.b
+		gaming_high_risk_effect = {
+			P1 = gaming_wargame.1001.b.p1
+			P2 = gaming_wargame.1001.b.p2
+			B1 = gaming_wargame.1001.b.b1
+			B2 = gaming_wargame.1001.b.b2
+		}
 	}
 	after = {
 		hidden_effect = {
-			gaming_fire_random_event_effect = yes
+			gaming_event_loop_effect = yes
 		}
 	}
 }
@@ -75,59 +119,55 @@ gaming_wargame.1002 = {
 	type = character_event
 	title = gaming_wargame.1002.t
 	desc = gaming_wargame.1002.desc
-  theme = martial
+	theme = martial
 	trigger = {
 		NOT = {
 			exists = local_var:had_1002
 		}
-		scope:activity = {
-			any_participant = {
-				gaming_default_participant_trigger = yes
-			}
-		}
+		gaming_has_opponent_trigger = yes
 	}
 	left_portrait = {
 		character = root
 		animation = happiness
 	}
 	right_portrait = {
-		character = root.var:gaming_opponent
+		character = root.var:current_opponent
 		animation = happiness
 	}
 	immediate = {
 		set_local_variable = {
 			name = had_1002
-			value = yes
+			value = 1
 		}
 	}
 	option = {
-    name = gaming_wargame.1002.a
-    gaming_high_risk_effect = {
-      P1 = gaming_wargame.1002.a.p1
-      P2 = gaming_wargame.1002.a.p2
-      B1 = gaming_wargame.1002.a.b1
-      B2 = gaming_wargame.1002.a.b2
-    }
+		name = gaming_wargame.1002.a
+		gaming_high_risk_effect = {
+			P1 = gaming_wargame.1002.a.p1
+			P2 = gaming_wargame.1002.a.p2
+			B1 = gaming_wargame.1002.a.b1
+			B2 = gaming_wargame.1002.a.b2
+		}
 	}
 	option = {
-    name = gaming_wargame.1002.b
-    gaming_medium_risk_effect = {
-      P1 = gaming_wargame.1002.b.p1
-      P2 = gaming_wargame.1002.b.p2
-      B1 = gaming_wargame.1002.b.b1
-      B2 = gaming_wargame.1002.b.b2
-    }
+		name = gaming_wargame.1002.b
+		gaming_medium_risk_effect = {
+			P1 = gaming_wargame.1002.b.p1
+			P2 = gaming_wargame.1002.b.p2
+			B1 = gaming_wargame.1002.b.b1
+			B2 = gaming_wargame.1002.b.b2
+		}
 	}
 	option = {
-    name = gaming_wargame.1002.c
-    gaming_low_risk_effect = {
-      P = gaming_wargame.1002.c.p
-      N = gaming_wargame.1002.c.n
-    }
+		name = gaming_wargame.1002.c
+		gaming_low_risk_effect = {
+			P = gaming_wargame.1002.c.p
+			N = gaming_wargame.1002.c.n
+		}
 	}
 	after = {
 		hidden_effect = {
-			gaming_fire_random_event_effect = yes
+			gaming_event_loop_effect = yes
 		}
 	}
 }
@@ -136,109 +176,157 @@ gaming_wargame.1003 = {
 	type = character_event
 	title = gaming_wargame.1003.t
 	desc = gaming_wargame.1003.desc
-  theme = martial
+	theme = martial
 	trigger = {
 		NOT = {
 			exists = local_var:had_1003
 		}
-		scope:activity = {
-			any_participant = {
-				gaming_default_participant_trigger = yes
-			}
-		}
+		gaming_has_opponent_trigger = yes
 	}
 	left_portrait = {
 		character = root
 		animation = happiness
 	}
 	right_portrait = {
-		character = root.var:gaming_opponent
+		character = root.var:current_opponent
 		animation = happiness
 	}
 	immediate = {
 		set_local_variable = {
 			name = had_1003
-			value = yes
+			value = 1
 		}
-  }
-
-	option = {
-    name = gaming_wargame.1003.a
-    gaming_high_risk_effect = {
-      P1 = gaming_wargame.1003.a.p1
-      P2 = gaming_wargame.1003.a.p2
-      B1 = gaming_wargame.1003.a.b1
-      B2 = gaming_wargame.1003.a.b2
-    }
 	}
 	option = {
-    name = gaming_wargame.1003.b
-    gaming_medium_risk_effect = {
-      P1 = gaming_wargame.1003.b.p1
-      P2 = gaming_wargame.1003.b.p2
-      B1 = gaming_wargame.1003.b.b1
-      B2 = gaming_wargame.1003.b.b2
-    }
+		name = gaming_wargame.1003.a
+		gaming_high_risk_effect = {
+			P1 = gaming_wargame.1003.a.p1
+			P2 = gaming_wargame.1003.a.p2
+			B1 = gaming_wargame.1003.a.b1
+			B2 = gaming_wargame.1003.a.b2
+		}
+	}
+	option = {
+		name = gaming_wargame.1003.b
+		gaming_medium_risk_effect = {
+			P1 = gaming_wargame.1003.b.p1
+			P2 = gaming_wargame.1003.b.p2
+			B1 = gaming_wargame.1003.b.b1
+			B2 = gaming_wargame.1003.b.b2
+		}
 	}
 	after = {
 		hidden_effect = {
-			gaming_fire_random_event_effect = yes
+			gaming_event_loop_effect = yes
 		}
 	}
 }
 
-# ##########################################################
-# 9000-9999 - Cleanup events and fallback events
-# ##########################################################
-
-# Host end event
-gaming_wargame.9001 = {
+# Spectators
+gaming_wargame.1500 = {
 	type = character_event
-	title = gaming_wargame.9001.t
-	desc = gaming_wargame.9001.desc
+	title = gaming_wargame.1500.t
+	desc = gaming_wargame.1500.desc
 	theme = martial
-	left_portrait = {
-		character = root
-		animation = happiness
-	}
-	right_portrait = {
-		character = root.var:gaming_opponent
-		animation = personality_bold
-	}
-	option = {
-		name = gaming_wargame.9001.a
-		gaming_end_host_effect = yes
-	}
-}
-
-# Guest end event
-gaming_wargame.9002 = {
-	type = character_event
-	title = gaming_wargame.9002.t
-	desc = gaming_wargame.9002.desc
-	theme = martial
-	left_portrait = {
-		character = root
-		animation = happiness
-	}
-	right_portrait = {
-		character = scope:host
-		animation = happiness
-	}
-	option = {
-		name = gaming_wargame.9002.a
-		gaming_end_guest_effect = yes
-	}
-}
-
-# Default event - just retrigger the selector
-gaming_wargame.9999 = {
-  type = character_event
-	hidden = yes
 	trigger = {
-		exists = scope:activity
+		NOT = {
+			gaming_has_opponent_trigger = yes
+		}
 	}
-	immediate = {
-		gaming_fire_random_event_effect = yes
+	option = {
+		name = gaming_wargame.1500.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_event_loop_effect = yes
+		}
+	}
+}
+
+# Ran out of opponent events
+gaming_wargame.1999 = {
+	type = character_event
+	title = gaming_wargame.1999.t
+	desc = gaming_wargame.1999.desc
+	theme = martial
+	trigger = {
+		gaming_has_opponent_trigger = yes
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:current_opponent
+		animation = happiness
+	}
+	option = {
+		name = gaming_wargame.1999.a
+		gaming_high_risk_effect = {
+			P1 = gaming_wargame.1999.a.p1
+			P2 = gaming_wargame.1999.a.p2
+			B1 = gaming_wargame.1999.a.b1
+			B2 = gaming_wargame.1999.a.b2
+		}
+	}
+	option = {
+		name = gaming_wargame.1999.b
+		gaming_medium_risk_effect = {
+			P1 = gaming_wargame.1999.b.p1
+			P2 = gaming_wargame.1999.b.p2
+			B1 = gaming_wargame.1999.b.b1
+			B2 = gaming_wargame.1999.b.b2
+		}
+	}
+	after = {
+		hidden_effect = {
+			gaming_event_loop_effect = yes
+		}
+	}
+}
+
+#
+# 8000 - 8999 - Round or tournament end
+#
+gaming_wargame.8000 = {
+	type = character_event
+	title = gaming_wargame.8000.t
+	desc = gaming_wargame.8000.desc
+	theme = martial
+	option = {
+		name = gaming_wargame.8000.a
+		gaming_end_match_effect = yes
+	}
+}
+
+# Winner
+gaming_wargame.8001 = {
+	type = character_event
+	title = gaming_wargame.8001.t
+	desc = gaming_wargame.8001.desc
+	theme = martial
+	option = {
+		name = gaming_wargame.8001.a
+		gaming_tournament_winner_effect = yes
+		add_character_modifier = {
+			modifier = gaming_wargame_champion_modifier
+			years = 5
+		}
+	}
+}
+
+# Loser
+gaming_wargame.8002 = {
+	type = character_event
+	title = gaming_wargame.8002.t
+	desc = gaming_wargame.8002.desc
+	theme = martial
+	option = {
+		name = gaming_wargame.8002.a
+		gaming_tournament_loser_effect = yes
+		add_character_modifier = {
+			modifier = gaming_wargame_modifier
+			years = 5
+		}
 	}
 }

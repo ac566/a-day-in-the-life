@@ -1,0 +1,7 @@
+﻿gaming_guest_stress_loss_effect = {
+	stress_impact = {
+		t_gamer_1 = minor_stress_loss
+		t_gamer_2 = minor_stress_loss
+		t_gamer_3 = minor_stress_loss
+	}
+}
