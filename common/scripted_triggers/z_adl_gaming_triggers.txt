@@ -1,23 +1,10 @@
-﻿gaming_default_participant_trigger = {
-	is_ai = yes
-	NOT = {
-		this = root
-	}
-	gaming_valid_participant_trigger = yes
-}
-
-gaming_end_events_participant_trigger = {
-	NOT = {
-		this = scope:host
-	}
-	gaming_valid_participant_trigger = yes
-}
-
+﻿# Is the character still a valid participant?
 gaming_valid_participant_trigger = {
 	is_alive = yes
 	is_imprisoned = no
 }
 
+# Can the character play in the tournament?
 gaming_tournament_valid_player_trigger = {
 	NOT = {
 		this = scope:activity.activity_owner
@@ -25,11 +12,12 @@ gaming_tournament_valid_player_trigger = {
 	is_available_for_activity_trigger = yes
 	gaming_valid_participant_trigger = yes
 	OR = {
-		martial >= 14
+		martial >= 16
 		has_trait = lifestyle_gamer
 	}
 }
 
+# Does the character have an opponent?
 gaming_has_opponent_trigger = {
 	has_variable = current_opponent
 	var:current_opponent = {

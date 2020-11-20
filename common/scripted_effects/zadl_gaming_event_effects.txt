@@ -1,7 +1,305 @@
-﻿gaming_guest_stress_loss_effect = {
+﻿# Stress loss for guest if they accept invite
+gaming_guest_stress_loss_effect = {
 	stress_impact = {
 		t_gamer_1 = minor_stress_loss
 		t_gamer_2 = minor_stress_loss
 		t_gamer_3 = minor_stress_loss
+	}
+}
+
+# Give winner some nice stuff
+gaming_tournament_winner_effect = {
+	gamer_lifestyle_rank_up_check_effect = yes
+	gaming_tournament_participant_effect = yes
+	add_prestige = 300
+}
+
+# Give loser some nice stuff
+gaming_tournament_loser_effect = {
+	gamer_lifestyle_rank_up_check_effect = yes
+	gaming_tournament_participant_effect = yes
+	add_prestige = 25
+}
+
+# Give participant some nice stuff
+gaming_tournament_participant_effect = {
+	if = {
+		limit = {
+			local_var:gaming_type = gaming_type_chess
+		}
+		add_character_modifier = {
+			modifier = gaming_chess_modifier
+			years = 5
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_go
+		}
+		add_character_modifier = {
+			modifier = gaming_go_modifier
+			years = 5
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_wargame
+		}
+		add_character_modifier = {
+			modifier = gaming_wargame_modifier
+			years = 5
+		}
+	}
+}
+
+# Calculate match result, track who loses
+gaming_end_match_effect = {
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		# Winning
+		if = {
+			limit = {
+				var:current_advantage >= gaming_crushing_win_threshold
+			}
+			custom_tooltip = gaming_crushing_win
+			add_prestige = 40
+		}
+		else_if = {
+			limit = {
+				var:current_advantage > gaming_decisive_win_threshold
+			}
+			custom_tooltip = gaming_decisive_win
+			add_prestige = 25
+		}
+		else_if = {
+			limit = {
+				var:current_advantage > gaming_slight_win_threshold
+			}
+			custom_tooltip = gaming_slight_win
+			add_prestige = 10
+		}
+		else_if = {
+			limit = {
+				var:current_advantage = var:current_opponent.var:current_advantage
+			}
+			custom_tooltip = gaming_draw
+			add_prestige = 5
+		}
+		else = {
+			set_variable = {
+				name = gaming_lost
+				value = var:current_opponent
+			}
+			# Losing
+			if = {
+				limit = {
+					var:current_advantage < gaming_crushing_loss_threshold
+				}
+				custom_tooltip = gaming_crushing_loss
+				add_prestige = -40
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_decisive_loss_threshold
+				}
+				custom_tooltip = gaming_decisive_loss
+				add_prestige = -25
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_slight_loss_threshold
+				}
+				custom_tooltip = gaming_slight_loss
+				add_prestige = 10
+			}
+		}
+	}
+}
+
+#
+# Match progression
+#
+# TODO: remove this? Needed it for something, not sure if needed any more
+gaming_set_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
+}
+
+gaming_gain_small_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		add = gaming_small_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_small
+}
+
+gaming_gain_medium_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		add = gaming_medium_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_medium
+}
+
+gaming_gain_large_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		add = gaming_large_advantage
+	}
+	custom_tooltip = gaming_gain_advantage_large
+}
+
+gaming_lose_small_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_small_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_small
+}
+
+gaming_lose_medium_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_medium_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_medium
+}
+
+gaming_lose_large_advantage_effect = {
+	gaming_set_advantage_effect = yes
+	change_variable = {
+		name = current_advantage
+		subtract = gaming_large_advantage
+	}
+	custom_tooltip = gaming_lose_advantage_large
+}
+
+gaming_low_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_small
+				desc = $P$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+		}
+		50 = {
+			gaming_lose_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_small
+				desc = $N$
+			}
+		}
+	}
+}
+
+gaming_medium_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_medium
+				desc = $P1$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+			gaming_gain_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_small
+				desc = $P2$
+			}
+		}
+		100 = {
+			gaming_lose_small_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_small
+				desc = $B1$
+			}
+		}
+		100 = {
+			gaming_lose_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_medium
+				desc = $B2$
+			}
+		}
+	}
+}
+
+gaming_high_risk_effect = {
+	random_list = {
+		50 = {
+			modifier = {
+				add = {
+					value = gaming_advantage
+					divide = 2
+				}
+			}
+			gaming_gain_large_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_large
+				desc = $P1$
+			}
+		}
+		50 = {
+			modifier = {
+				add = gaming_advantage
+			}
+			gaming_gain_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_gain_advantage_medium
+				desc = $P2$
+			}
+		}
+		150 = {
+			gaming_lose_medium_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_medium
+				desc = $B1$
+			}
+		}
+		150 = {
+			gaming_lose_large_advantage_effect = yes
+			send_interface_toast = {
+				title = gaming_lose_advantage_large
+				desc = $B2$
+			}
+		}
 	}
 }

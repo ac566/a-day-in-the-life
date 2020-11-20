@@ -89,6 +89,7 @@
 	}
 	# Completion
 	on_complete = {
+		# Cleanup variables
 		every_participant = {
 			remove_variable = current_opponent
 			remove_variable = current_advantage

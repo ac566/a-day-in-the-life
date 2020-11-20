@@ -1,9 +1,11 @@
 ﻿min_default_gaming_events = 1
 max_default_gaming_events = 1
+# NOT USED
 chance_of_extra_gaming_events = 0
+# Spacing
 gaming_initial_event_delay = 5
-min_gaming_event_spacing = 10
-max_gaming_event_spacing = 15
+min_gaming_event_spacing = 3
+max_gaming_event_spacing = 8
 max_gaming_duration = {
 	value = 0
 	add = max_gaming_event_spacing
@@ -14,8 +16,8 @@ max_gaming_duration = {
 
 # Gamer trait rank tracking
 gamer_rank_up_1_threshold = 8
-gamer_rank_up_2_threshold = 24
-gamer_rank_up_3_threshold = 48
+gamer_rank_up_2_threshold = 16
+gamer_rank_up_3_threshold = 24
 # Stress Loss
 gaming_stress_loss_value = -30
 standard_gaming_tournament_cooldown_time = 1825
@@ -23,18 +25,16 @@ standard_gaming_tournament_cooldown_time = 1825
 gaming_type_chess = 0
 gaming_type_go = 1
 gaming_type_wargame = 2
-# Win chance, the higher the value more often a draw will occur
-gaming_default_win_chance = 0
 # Cooldowns
 gaming_host_cooldown = 3
 gaming_guest_cooldown = 3
-#
 # Advantage calculations
 gaming_small_advantage = 40
 gaming_medium_advantage = 80
 gaming_large_advantage = 160
 gaming_advantage = {
 	value = 0
+	# Reward having skills that match game type
 	if = {
 		limit = {
 			local_var:gaming_type = gaming_type_chess
@@ -60,7 +60,7 @@ gaming_advantage = {
 			multiply = 2
 		}
 	}
-	subtract = 16
+	subtract = 16	# penalize/reward below/above average skills
 	multiply = 5
 	if = {
 		limit = {
@@ -82,6 +82,9 @@ gaming_advantage = {
 	}
 }
 
+# Win chance, the higher the value more often a draw will occur
+gaming_default_win_chance = 10
+# Win calculation
 gaming_slight_win_threshold = {
 	value = var:current_opponent.var:current_advantage
 	add = gaming_default_win_chance
@@ -97,6 +100,7 @@ gaming_crushing_win_threshold = {
 	add = gaming_default_win_chance
 }
 
+# Loss calculation
 gaming_slight_loss_threshold = {
 	value = var:current_opponent.var:current_advantage
 	subtract = gaming_default_win_chance

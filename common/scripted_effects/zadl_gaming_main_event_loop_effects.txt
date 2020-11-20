@@ -1,4 +1,5 @@
-﻿gaming_event_loop_effect = {
+﻿# Tracks number of events a character has had, then fires more if under the limit
+gaming_event_loop_effect = {
 	if = {
 		limit = {
 			NOT = {
@@ -26,6 +27,7 @@
 	}
 }
 
+# Fires event depending on game type and whether the character is a player vs. spectator
 gaming_fire_correct_or_default_event_effect = {
 	if = {
 		limit = {
@@ -107,6 +109,7 @@ gaming_fire_correct_or_default_event_effect = {
 	}
 }
 
+# Broadcast that this character is done with his events
 gaming_events_end_effect = {
 	remove_variable = num_gaming_events
 	save_temporary_scope_as = finished_participant
@@ -118,6 +121,7 @@ gaming_events_end_effect = {
 	}
 }
 
+# Triggers match result event for all players, then schedules the next round
 gaming_end_round_effect = {
 	scope:activity = {
 		clear_variable_list = finished_participants
@@ -158,71 +162,7 @@ gaming_end_round_effect = {
 	}
 }
 
-gaming_end_match_effect = {
-	if = {
-		limit = {
-			gaming_has_opponent_trigger = yes
-		}
-		# Winning
-		if = {
-			limit = {
-				var:current_advantage >= gaming_crushing_win_threshold
-			}
-			custom_tooltip = gaming_crushing_win
-			add_prestige = 40
-		}
-		else_if = {
-			limit = {
-				var:current_advantage > gaming_decisive_win_threshold
-			}
-			custom_tooltip = gaming_decisive_win
-			add_prestige = 25
-		}
-		else_if = {
-			limit = {
-				var:current_advantage > gaming_slight_win_threshold
-			}
-			custom_tooltip = gaming_slight_win
-			add_prestige = 10
-		}
-		else_if = {
-			limit = {
-				var:current_advantage = var:current_opponent.var:current_advantage
-			}
-			custom_tooltip = gaming_draw
-			add_prestige = 5
-		}
-		else = {
-			set_variable = {
-				name = gaming_lost
-				value = var:current_opponent
-			}
-			# Losing
-			if = {
-				limit = {
-					var:current_advantage < gaming_crushing_loss_threshold
-				}
-				custom_tooltip = gaming_crushing_loss
-				add_prestige = -40
-			}
-			else_if = {
-				limit = {
-					var:current_advantage < gaming_decisive_loss_threshold
-				}
-				custom_tooltip = gaming_decisive_loss
-				add_prestige = -25
-			}
-			else_if = {
-				limit = {
-					var:current_advantage < gaming_slight_loss_threshold
-				}
-				custom_tooltip = gaming_slight_loss
-				add_prestige = 10
-			}
-		}
-	}
-}
-
+# Triggers tournament result events, then schedules end of tournament event
 gaming_end_tournament_effect = {
 	scope:activity = {
 		activity_owner = {
@@ -290,17 +230,4 @@ gaming_end_tournament_effect = {
 			}
 		}
 	}
-}
-
-gaming_tournament_winner_effect = {
-	gamer_lifestyle_rank_up_check_effect = yes
-	add_prestige = 300
-}
-
-gaming_tournament_loser_effect = {
-	gamer_lifestyle_rank_up_check_effect = yes
-	add_prestige = 25
-}
-
-gaming_loser_effect = {
 }

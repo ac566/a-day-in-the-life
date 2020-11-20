@@ -1,8 +1,15 @@
-﻿namespace = gaming_go
+﻿####################################################
 #
+# 0001-0999 - Setup events
+# 1000-1999 - Tournament player and spectator events
+# 8000-8999 - End of round/tournament events
+#
+####################################################
+namespace = gaming_go
+###################
 # 0001-0999 - Setup
-#
-# Players
+###################
+# Player start
 gaming_go.0001 = {
 	type = character_event
 	title = gaming_go.0001.t
@@ -30,7 +37,7 @@ gaming_go.0001 = {
 	}
 }
 
-# Setup
+# Setup tournament
 gaming_go.0002 = {
 	type = character_event
 	hidden = yes
@@ -44,7 +51,7 @@ gaming_go.0002 = {
 	}
 }
 
-# Spectators
+# Spectators start
 gaming_go.0500 = {
 	type = character_event
 	title = gaming_go.0500.t
@@ -63,7 +70,8 @@ gaming_go.0500 = {
 }
 
 # ################################################
-# 1001-1999 - Main events during the game activity
+# 1001-1499 - Main events during the game activity
+# 1500-1999 - Spectator events
 # ################################################
 gaming_go.1001 = {
 	type = character_event
@@ -222,27 +230,11 @@ gaming_go.1003 = {
 	}
 }
 
-# Spectators
-gaming_go.1500 = {
+# Default generic game event
+gaming_go.1499 = {
 	type = character_event
-	title = gaming_go.1500.t
-	desc = gaming_go.1500.desc
-	theme = martial
-	option = {
-		name = gaming_go.1500.a
-	}
-	after = {
-		hidden_effect = {
-			gaming_event_loop_effect = yes
-		}
-	}
-}
-
-# Ran out of opponent events
-gaming_go.1999 = {
-	type = character_event
-	title = gaming_go.1999.t
-	desc = gaming_go.1999.desc
+	title = gaming_go.1499.t
+	desc = gaming_go.1499.desc
 	theme = martial
 	trigger = {
 		gaming_has_opponent_trigger = yes
@@ -259,21 +251,21 @@ gaming_go.1999 = {
 		animation = happiness
 	}
 	option = {
-		name = gaming_go.1999.a
+		name = gaming_go.1499.a
 		gaming_high_risk_effect = {
-			P1 = gaming_go.1999.a.p1
-			P2 = gaming_go.1999.a.p2
-			B1 = gaming_go.1999.a.b1
-			B2 = gaming_go.1999.a.b2
+			P1 = gaming_go.1499.a.p1
+			P2 = gaming_go.1499.a.p2
+			B1 = gaming_go.1499.a.b1
+			B2 = gaming_go.1499.a.b2
 		}
 	}
 	option = {
-		name = gaming_go.1999.b
+		name = gaming_go.1499.b
 		gaming_medium_risk_effect = {
-			P1 = gaming_go.1999.b.p1
-			P2 = gaming_go.1999.b.p2
-			B1 = gaming_go.1999.b.b1
-			B2 = gaming_go.1999.b.b2
+			P1 = gaming_go.1499.b.p1
+			P2 = gaming_go.1499.b.p2
+			B1 = gaming_go.1499.b.b1
+			B2 = gaming_go.1499.b.b2
 		}
 	}
 	after = {
@@ -283,9 +275,26 @@ gaming_go.1999 = {
 	}
 }
 
-#
+# Spectators
+gaming_go.1500 = {
+	type = character_event
+	title = gaming_go.1500.t
+	desc = gaming_go.1500.desc
+	theme = martial
+	option = {
+		name = gaming_go.1500.a
+	}
+	after = {
+		hidden_effect = {
+			gaming_event_loop_effect = yes
+		}
+	}
+}
+
+#######################################
 # 8000 - 8999 - Round or tournament end
-#
+#######################################
+# End of match
 gaming_go.8000 = {
 	type = character_event
 	title = gaming_go.8000.t
@@ -318,10 +327,6 @@ gaming_go.8001 = {
 	option = {
 		name = gaming_go.8001.a
 		gaming_tournament_winner_effect = yes
-		add_character_modifier = {
-			modifier = gaming_go_champion_modifier
-			years = 5
-		}
 	}
 }
 
@@ -342,9 +347,5 @@ gaming_go.8002 = {
 	option = {
 		name = gaming_go.8002.a
 		gaming_tournament_loser_effect = yes
-		add_character_modifier = {
-			modifier = gaming_go_modifier
-			years = 5
-		}
 	}
 }

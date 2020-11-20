@@ -1,7 +1,15 @@
-﻿namespace = gaming
+﻿####################################################
 #
+# 0001-0999 - Invitations and letters
+# 1000-1999 - Setup events
+# 8000-8999 - End of rount/maintenance
+# 9000-9999 - End of activity
+#
+####################################################
+namespace = gaming
+#######################################
 # 0001-0999 - Invitations and Responses
-#
+#######################################
 ## Invite guest to tournament
 gaming.0001 = {
 	type = letter_event
@@ -89,9 +97,9 @@ gaming.0001 = {
 	}
 }
 
-#
+#######################
 # 1000 - 1999 - Startup
-#
+#######################
 ## Host startup
 gaming.1000 = {
 	type = character_event
@@ -157,9 +165,10 @@ gaming.1000 = {
 	}
 }
 
-#
+############################
 # 8000 - 8999 - Round Events
-#
+############################
+# End of round
 gaming.8000 = {
 	type = character_event
 	hidden = yes
@@ -170,6 +179,7 @@ gaming.8000 = {
 		if = {
 			limit = {
 				OR = {
+					# Check if every one is done
 					scope:activity = {
 						any_participant = {
 							count = all
@@ -190,6 +200,7 @@ gaming.8000 = {
 							}
 						}
 					}
+					# Or if we ran out of patience and just want to end this cycle
 					AND = {
 						trigger_if = {
 							limit = {
@@ -205,7 +216,9 @@ gaming.8000 = {
 			}
 			gaming_end_round_effect = yes
 		}
+		# Retrigger the event in the future, hopefully people click their events
 		else = {
+			# Keep track of how many times we tried to end
 			if = {
 				limit = {
 					NOT = {
@@ -235,6 +248,7 @@ gaming.8000 = {
 	}
 }
 
+# Start next round or end tournament
 gaming.8001 = {
 	type = character_event
 	hidden = yes
@@ -272,9 +286,10 @@ gaming.8001 = {
 	}
 }
 
-#
+##########################
 # 9000 - 9999 - End Events
-#
+##########################
+# Host end event
 gaming.9000 = {
 	type = character_event
 	title = gaming.9000.t
@@ -307,6 +322,7 @@ gaming.9000 = {
 	}
 }
 
+# Guest end event
 gaming.9001 = {
 	type = character_event
 	title = gaming.9001.t

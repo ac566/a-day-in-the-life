@@ -70,18 +70,18 @@ gaming_go_spectator_event_selection = {
 
 gaming_chess_fallback = {
 	events = {
-		gaming_chess.1999
+		gaming_chess.1499
 	}
 }
 
 gaming_go_fallback = {
 	events = {
-		gaming_go.1999
+		gaming_go.1499
 	}
 }
 
 gaming_wargame_fallback = {
 	events = {
-		gaming_wargame.1999
+		gaming_wargame.1499
 	}
 }
