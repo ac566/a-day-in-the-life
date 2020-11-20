@@ -1,4 +1,19 @@
 ﻿l_english:
+  gaming_wargame.0001.t:0 "Chess Tournament"
+  gaming_wargame.0001.desc:0 "You take a seat across your opponent"
+  gaming_wargame.0001.a:0 "This shouldn't be that hard"
+
+
+  gaming_wargame.0500.t:0 "Chess Tournament"
+  gaming_wargame.0500.desc:0 "Since you are the odd man out you will have to spectate this round"
+  gaming_wargame.0500.a:0 "I came to play not watch!"
+
+
+  gaming_wargame.1500.t:0 "Chess Tournament"
+  gaming_wargame.1500.desc:0 "You spectate a match"
+  gaming_wargame.1500.a:0 "This is boring"
+
+
   gaming_wargame.1001.t:0 "Reinforcements?"
 	gaming_wargame.1001.desc:0 "Your forces are encircled, the enemy has concentrated his force separating your army in two! It would be risky saving them, but setting up defenses may be the better option, but you can't really afford to lose half your army. Your oppenent taps his foot impatiently, awaiting your response"
   gaming_wargame.1001.a:0 "You fortify the nearby hills"
@@ -41,10 +56,27 @@
   gaming_wargame.1003.b.b1:0 "The enemy harasses holds defiantly forcing your retreat"
   gaming_wargame.1003.b.b2:0 "Your troops are too tired to cross, costing you the objective"
 
-  gaming_wargame.9001.a:0 "Finish the match"
-  gaming_wargame.9001.t:0 "Endgame"
-	gaming_wargame.9001.desc:0 "The game draws to a close"
+  gaming_wargame.1999.t:0 "Random Event"
+	gaming_wargame.1999.desc:0 "There weren't enough events sorry bout that"
+  gaming_wargame.1999.a:0 "High Risk"
+  gaming_wargame.1999.b:0 "Medium Risk"
+  gaming_wargame.1999.a.p1:0 "Your troop quickly cross and surprise the enemy"
+  gaming_wargame.1999.a.p2:0 "You take some losses but gain a slight advantage"
+  gaming_wargame.1999.a.b1:0 "The crossing is brutal and bloody, you lack the manpower to secure the objective"
+  gaming_wargame.1999.a.b2:0 "The enemy has fooled you! They await in the trees and decimate your army"
+  gaming_wargame.1999.b.p1:0 "Whatever advantage your opponent hoped to gain is quickly dashed"
+  gaming_wargame.1999.b.p2:0 "Under ideal circumstances you win, with the crossing you still win"
+  gaming_wargame.1999.b.b1:0 "The enemy harasses holds defiantly forcing your retreat"
+  gaming_wargame.1999.b.b2:0 "Your troops are too tired to cross, costing you the objective"
 
-  gaming_wargame.9002.a:0 "Finish the match"
-  gaming_wargame.9002.t:0 "Endgame"
-	gaming_wargame.9002.desc:0 "The game draws to a close"
+  gaming_wargame.8000.t:0 "Endgame"
+	gaming_wargame.8000.desc:0 "The game draws to a close"
+  gaming_wargame.8000.a:0 "Finish the match"
+
+  gaming_wargame.8001.t:0 "Undefeated"
+	gaming_wargame.8001.desc:0 "You won! You stand as the undefeated wargame champion in the realm. Congratulations"
+  gaming_wargame.8001.a:0 "All glory to me"
+
+  gaming_wargame.8002.t:0 "Vanquished"
+	gaming_wargame.8002.desc:0 "You lost! It could have just been the dice..."
+  gaming_wargame.8002.a:0 "Next time, victory shall be mine"

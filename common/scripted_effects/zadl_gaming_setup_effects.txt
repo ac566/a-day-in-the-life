@@ -5,10 +5,6 @@
 			limit = {
 				gaming_valid_participant_trigger = yes
 			}
-			set_variable = {
-				name = gaming_lost
-				value = 0
-			}
 			add_to_list = active_opponents
 		}
 	}
@@ -24,41 +20,39 @@ gaming_setup_effect = {
 		every_in_list = {
 			list = active_opponents
 			limit = {
-				var:gaming_lost < 1
+				NOT = {
+					has_variable = gaming_lost
+				}
 				gaming_valid_participant_trigger = yes
+				gaming_has_opponent_trigger = no
 			}
-			# Add to done list
 			save_temporary_scope_as = current_participant
-			add_to_list = paired_participants
 			set_variable = {
 				name = current_advantage
 				value = 0
 			}
 			# Give every participant an opponent
-			if = {
+			random_in_list = {
+				list = active_opponents
 				limit = {
 					NOT = {
-						gaming_has_opponent_trigger = yes
+						has_variable = gaming_lost
+					}
+					gaming_valid_participant_trigger = yes
+					gaming_has_opponent_trigger = no
+					NOT = {
+						this = scope:current_participant
 					}
 				}
-				random_in_list = {
-					list = active_opponents
-					limit = {
-						NOT = {
-							is_in_list = paired_participants
-						}
-					}
-					save_temporary_scope_as = random_participant
-					add_to_list = paired_participants
+				save_temporary_scope_as = random_participant
+				set_variable = {
+					name = current_opponent
+					value = scope:current_participant
+				}
+				scope:current_participant = {
 					set_variable = {
 						name = current_opponent
-						value = scope:current_participant
-					}
-					scope:current_participant = {
-						set_variable = {
-							name = current_opponent
-							value = scope:random_participant
-						}
+						value = scope:random_participant
 					}
 				}
 			}
@@ -67,7 +61,6 @@ gaming_setup_effect = {
 			limit = {
 				gaming_valid_participant_trigger = yes
 			}
-			remove_from_list = paired_participants
 			# Start event loop
 			if = {
 				limit = {
@@ -102,9 +95,20 @@ gaming_chess_setup_effect = {
 		name = gaming_type
 		value = gaming_type_chess
 	}
-	trigger_event = {
-		on_action = gaming_chess_event_selection
-		days = gaming_initial_event_delay
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_chess_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_chess_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
 	}
 }
 
@@ -113,9 +117,20 @@ gaming_go_setup_effect = {
 		name = gaming_type
 		value = gaming_type_go
 	}
-	trigger_event = {
-		on_action = gaming_go_event_selection
-		days = gaming_initial_event_delay
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_go_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_go_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
 	}
 }
 
@@ -124,8 +139,19 @@ gaming_wargame_setup_effect = {
 		name = gaming_type
 		value = gaming_type_wargame
 	}
-	trigger_event = {
-		on_action = gaming_wargame_event_selection
-		days = gaming_initial_event_delay
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_wargame_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_wargame_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
 	}
 }

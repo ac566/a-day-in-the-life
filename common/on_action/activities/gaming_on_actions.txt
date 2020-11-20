@@ -8,7 +8,6 @@ gaming_start_events = {
 gaming_chess_event_selection = {
 	trigger = {
 		exists = scope:activity
-		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_chess.1001
@@ -18,10 +17,18 @@ gaming_chess_event_selection = {
 	fallback = gaming_chess_fallback
 }
 
+gaming_chess_spectator_event_selection = {
+	trigger = {
+		exists = scope:activity
+	}
+	random_events = {
+		10 = gaming_chess.1500
+	}
+}
+
 gaming_wargame_event_selection = {
 	trigger = {
 		exists = scope:activity
-		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_wargame.1001
@@ -31,10 +38,18 @@ gaming_wargame_event_selection = {
 	fallback = gaming_wargame_fallback
 }
 
+gaming_wargame_spectator_event_selection = {
+	trigger = {
+		exists = scope:activity
+	}
+	random_events = {
+		10 = gaming_wargame.1500
+	}
+}
+
 gaming_go_event_selection = {
 	trigger = {
 		exists = scope:activity
-		gaming_has_opponent_trigger = yes
 	}
 	random_events = {
 		10 = gaming_go.1001
@@ -44,32 +59,29 @@ gaming_go_event_selection = {
 	fallback = gaming_go_fallback
 }
 
-gaming_default_event_selection = {
+gaming_go_spectator_event_selection = {
 	trigger = {
 		exists = scope:activity
 	}
-	events = {
-		gaming.2000
+	random_events = {
+		10 = gaming_go.1500
 	}
 }
 
 gaming_chess_fallback = {
 	events = {
-		gaming_chess.1500
 		gaming_chess.1999
 	}
 }
 
 gaming_go_fallback = {
 	events = {
-		gaming_go.1500
 		gaming_go.1999
 	}
 }
 
 gaming_wargame_fallback = {
 	events = {
-		gaming_go.1500
 		gaming_wargame.1999
 	}
 }

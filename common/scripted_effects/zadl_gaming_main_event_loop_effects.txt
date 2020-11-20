@@ -26,6 +26,87 @@
 	}
 }
 
+gaming_fire_correct_or_default_event_effect = {
+	if = {
+		limit = {
+			local_var:gaming_type = gaming_type_chess
+		}
+		if = {
+			limit = {
+				gaming_has_opponent_trigger = yes
+			}
+			trigger_event = {
+				on_action = gaming_chess_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+		else = {
+			trigger_event = {
+				on_action = gaming_chess_spectator_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_go
+		}
+		if = {
+			limit = {
+				gaming_has_opponent_trigger = yes
+			}
+			trigger_event = {
+				on_action = gaming_go_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+		else = {
+			trigger_event = {
+				on_action = gaming_go_spectator_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_wargame
+		}
+		if = {
+			limit = {
+				gaming_has_opponent_trigger = yes
+			}
+			trigger_event = {
+				on_action = gaming_wargame_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+		else = {
+			trigger_event = {
+				on_action = gaming_wargame_spectator_event_selection
+				days = {
+					min_gaming_event_spacing
+					max_gaming_event_spacing
+				}
+			}
+		}
+	}
+}
+
 gaming_events_end_effect = {
 	remove_variable = num_gaming_events
 	save_temporary_scope_as = finished_participant
@@ -37,56 +118,17 @@ gaming_events_end_effect = {
 	}
 }
 
-gaming_fire_correct_or_default_event_effect = {
-	if = {
-		limit = {
-			local_var:gaming_type = gaming_type_chess
-		}
-		trigger_event = {
-			on_action = gaming_chess_event_selection
-			days = {
-				min_gaming_event_spacing
-				max_gaming_event_spacing
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			local_var:gaming_type = gaming_type_go
-		}
-		trigger_event = {
-			on_action = gaming_go_event_selection
-			days = {
-				min_gaming_event_spacing
-				max_gaming_event_spacing
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			local_var:gaming_type = gaming_type_wargame
-		}
-		trigger_event = {
-			on_action = gaming_wargame_event_selection
-			days = {
-				min_gaming_event_spacing
-				max_gaming_event_spacing
-			}
-		}
-	}
-	else = {
-		trigger_event = {
-			on_action = gaming_default_event_selection
-		}
-	}
-}
-
 gaming_end_round_effect = {
 	scope:activity = {
 		clear_variable_list = finished_participants
+		set_variable = {
+			name = attempted_to_end_round
+			value = 0
+		}
 		every_participant = {
 			limit = {
 				gaming_valid_participant_trigger = yes
+				gaming_has_opponent_trigger = yes
 			}
 			if = {
 				limit = {
@@ -124,7 +166,7 @@ gaming_end_match_effect = {
 		# Winning
 		if = {
 			limit = {
-				var:current_advantage > gaming_crushing_win_threshold
+				var:current_advantage >= gaming_crushing_win_threshold
 			}
 			custom_tooltip = gaming_crushing_win
 			add_prestige = 40
@@ -143,35 +185,40 @@ gaming_end_match_effect = {
 			custom_tooltip = gaming_slight_win
 			add_prestige = 10
 		}
-		# Losing
 		else_if = {
 			limit = {
-				var:current_advantage < gaming_crushing_loss_threshold
+				var:current_advantage = var:current_opponent.var:current_advantage
 			}
-			custom_tooltip = gaming_crushing_loss
-			add_prestige = -40
-			gaming_loser_effect = yes
-		}
-		else_if = {
-			limit = {
-				var:current_advantage > gaming_decisive_loss_threshold
-			}
-			custom_tooltip = gaming_decisive_loss
-			add_prestige = -25
-			gaming_loser_effect = yes
-		}
-		else_if = {
-			limit = {
-				var:current_advantage > gaming_slight_loss_threshold
-			}
-			custom_tooltip = gaming_slight_loss
-			add_prestige = 10
-			gaming_loser_effect = yes
-		}
-		# Draw
-		else = {
 			custom_tooltip = gaming_draw
 			add_prestige = 5
+		}
+		else = {
+			set_variable = {
+				name = gaming_lost
+				value = var:current_opponent
+			}
+			# Losing
+			if = {
+				limit = {
+					var:current_advantage < gaming_crushing_loss_threshold
+				}
+				custom_tooltip = gaming_crushing_loss
+				add_prestige = -40
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_decisive_loss_threshold
+				}
+				custom_tooltip = gaming_decisive_loss
+				add_prestige = -25
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_slight_loss_threshold
+				}
+				custom_tooltip = gaming_slight_loss
+				add_prestige = 10
+			}
 		}
 	}
 }
@@ -191,7 +238,12 @@ gaming_end_tournament_effect = {
 			# Winner
 			if = {
 				limit = {
-					var:gaming_lost < 1
+					NOT = {
+						has_variable = gaming_lost
+					}
+				}
+				gamer_points_gain_effect = {
+					CHANGE = 4
 				}
 				if = {
 					limit = {
@@ -214,6 +266,9 @@ gaming_end_tournament_effect = {
 			}
 			# Losers
 			else = {
+				gamer_points_gain_effect = {
+					CHANGE = 2
+				}
 				if = {
 					limit = {
 						local_var:gaming_type = gaming_type_chess
@@ -238,28 +293,14 @@ gaming_end_tournament_effect = {
 }
 
 gaming_tournament_winner_effect = {
-	hidden_effect = {
-		gamer_points_gain_effect = {
-			CHANGE = 4
-		}
-	}
 	gamer_lifestyle_rank_up_check_effect = yes
 	add_prestige = 300
 }
 
 gaming_tournament_loser_effect = {
-	hidden_effect = {
-		gamer_points_gain_effect = {
-			CHANGE = 2
-		}
-	}
 	gamer_lifestyle_rank_up_check_effect = yes
 	add_prestige = 25
 }
 
 gaming_loser_effect = {
-	change_variable = {
-		name = gaming_lost
-		add = 1
-	}
 }

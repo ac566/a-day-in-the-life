@@ -44,7 +44,7 @@ gaming.0001 = {
 	# Options
 	## Accept
 	option = {
-		name = gaming.0001.accept
+		name = gaming.0001.a
 		scope:activity = {
 			accept_invitation_for_character = prev
 		}
@@ -65,7 +65,7 @@ gaming.0001 = {
 	}
 	## Decline
 	option = {
-		name = gaming.0001.decline
+		name = gaming.0001.b
 		scope:activity = {
 			decline_invitation_for_character = prev
 		}
@@ -109,7 +109,7 @@ gaming.1000 = {
 	## Chess
 	option = {
 		name = gaming.1000.a
-		# custom_tooltip = gaming.1000.a.tt
+		custom_tooltip = gaming.1000.a.tt
 		trigger_event = gaming_chess.0002
 		# AI
 		ai_chance = {
@@ -126,7 +126,7 @@ gaming.1000 = {
 	## Go
 	option = {
 		name = gaming.1000.b
-		# custom_tooltip = gaming.1000.b.tt
+		custom_tooltip = gaming.1000.b.tt
 		trigger_event = gaming_go.0002
 		# AI
 		ai_chance = {
@@ -142,7 +142,7 @@ gaming.1000 = {
 	## Wargame
 	option = {
 		name = gaming.1000.c
-		# custom_tooltip = gaming.1000.c.tt
+		custom_tooltip = gaming.1000.c.tt
 		trigger_event = gaming_wargame.0002
 		# AI
 		ai_chance = {
@@ -158,23 +158,6 @@ gaming.1000 = {
 }
 
 #
-#
-#
-gaming.2000 = {
-	type = character_event
-	title = gaming.2000.t
-	desc = gaming.2000.desc
-	theme = martial
-	right_portrait = {
-		character = root
-		animation = happiness
-	}
-	option = {
-		name = gaming.2000.a
-	}
-}
-
-#
 # 8000 - 8999 - Round Events
 #
 gaming.8000 = {
@@ -186,23 +169,36 @@ gaming.8000 = {
 	immediate = {
 		if = {
 			limit = {
-				scope:activity = {
-					any_participant = {
-						count = all
-						trigger_if = {
-							limit = {
-								gaming_valid_participant_trigger = yes
-							}
-							save_temporary_scope_as = participant_check
-							scope:activity = {
-								is_target_in_variable_list = {
-									name = finished_participants
-									target = scope:participant_check
+				OR = {
+					scope:activity = {
+						any_participant = {
+							count = all
+							trigger_if = {
+								limit = {
+									gaming_valid_participant_trigger = yes
+								}
+								save_temporary_scope_as = participant_check
+								scope:activity = {
+									is_target_in_variable_list = {
+										name = finished_participants
+										target = scope:participant_check
+									}
 								}
 							}
+							trigger_else = {
+								always = yes
+							}
+						}
+					}
+					AND = {
+						trigger_if = {
+							limit = {
+								exists = scope:activity.var:attempted_to_end_round
+							}
+							scope:activity.var:attempted_to_end_round > 2
 						}
 						trigger_else = {
-							always = yes
+							always = no
 						}
 					}
 				}
@@ -210,6 +206,27 @@ gaming.8000 = {
 			gaming_end_round_effect = yes
 		}
 		else = {
+			if = {
+				limit = {
+					NOT = {
+						exists = scope:activity.var:attempted_to_end_round
+					}
+				}
+				scope:activity = {
+					set_variable = {
+						name = attempted_to_end_round
+						value = 1
+					}
+				}
+			}
+			else = {
+				scope:activity = {
+					change_variable = {
+						name = attempted_to_end_round
+						add = 1
+					}
+				}
+			}
 			trigger_event = {
 				id = gaming.8000
 				days = 5
@@ -225,17 +242,32 @@ gaming.8001 = {
 		exists = scope:activity
 	}
 	immediate = {
-		if = {
-			limit = {
-				any_in_list = {
-					list = active_opponents
-					count < 2
+		scope:activity = {
+			every_participant = {
+				limit = {
+					NOT = {
+						has_variable = gaming_lost
+					}
+					gaming_valid_participant_trigger = yes
 				}
+				add_to_temporary_list = winners
 			}
-			gaming_end_tournament_effect = yes
-		}
-		else = {
-			gaming_setup_effect = yes
+			if = {
+				limit = {
+					list_size = {
+						name = winners
+						value < 2
+					}
+				}
+				any_in_list = {
+					list = winners
+					save_scope_as = winner
+				}
+				gaming_end_tournament_effect = yes
+			}
+			else = {
+				gaming_setup_effect = yes
+			}
 		}
 	}
 }
@@ -248,6 +280,10 @@ gaming.9000 = {
 	title = gaming.9000.t
 	desc = gaming.9000.desc
 	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
 	option = {
 		name = gaming.9000.a
 	}
@@ -256,13 +292,18 @@ gaming.9000 = {
 			every_participant = {
 				limit = {
 					gaming_valid_participant_trigger = yes
+					NOT = {
+						this = scope:activity.activity_owner
+					}
 				}
 				trigger_event = gaming.9001
 			}
 		}
 	}
 	after = {
-		complete_activity = yes
+		scope:activity = {
+			complete_activity = yes
+		}
 	}
 }
 
@@ -271,6 +312,14 @@ gaming.9001 = {
 	title = gaming.9001.t
 	desc = gaming.9001.desc
 	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	left_portrait = {
+		character = scope:activity.activity_owner
+		animation = happiness
+	}
 	trigger = {
 		NOT = {
 			this = scope:activity.activity_owner

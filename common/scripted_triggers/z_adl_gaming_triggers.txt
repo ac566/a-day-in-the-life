@@ -25,13 +25,13 @@ gaming_tournament_valid_player_trigger = {
 	is_available_for_activity_trigger = yes
 	gaming_valid_participant_trigger = yes
 	OR = {
-		martial > 8
+		martial >= 14
 		has_trait = lifestyle_gamer
 	}
 }
 
 gaming_has_opponent_trigger = {
-	exists = var:current_opponent
+	has_variable = current_opponent
 	var:current_opponent = {
 		gaming_valid_participant_trigger = yes
 	}

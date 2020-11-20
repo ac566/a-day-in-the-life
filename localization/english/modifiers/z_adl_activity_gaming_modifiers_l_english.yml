@@ -6,4 +6,4 @@
   gaming_go_modifier_desc:0 "[CHARACTER.GetShortUIName|U] recently played an interesting game of go"
 
   gaming_wargame_modifier:0 "Recently Played Wargame"
-  gaming_wargame_modifier_desc:0 "Recently played an interesting wargame"
+  gaming_wargame_modifier_desc:0 "[CHARACTER.GetShortUIName|U] recently played an interesting wargame"

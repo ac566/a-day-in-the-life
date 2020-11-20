@@ -2,6 +2,17 @@
 # Match progression
 #
 gaming_gain_small_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		add = gaming_small_advantage
@@ -10,6 +21,17 @@ gaming_gain_small_advantage_effect = {
 }
 
 gaming_gain_medium_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		add = gaming_medium_advantage
@@ -18,6 +40,17 @@ gaming_gain_medium_advantage_effect = {
 }
 
 gaming_gain_large_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		add = gaming_large_advantage
@@ -26,6 +59,17 @@ gaming_gain_large_advantage_effect = {
 }
 
 gaming_lose_small_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		subtract = gaming_small_advantage
@@ -34,6 +78,17 @@ gaming_lose_small_advantage_effect = {
 }
 
 gaming_lose_medium_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		subtract = gaming_medium_advantage
@@ -42,6 +97,17 @@ gaming_lose_medium_advantage_effect = {
 }
 
 gaming_lose_large_advantage_effect = {
+	if = {
+		limit = {
+			NOT = {
+				exists = var:current_advantage
+			}
+		}
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+	}
 	change_variable = {
 		name = current_advantage
 		subtract = gaming_large_advantage

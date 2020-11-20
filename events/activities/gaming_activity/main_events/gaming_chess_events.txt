@@ -228,11 +228,6 @@ gaming_chess.1500 = {
 	title = gaming_chess.1500.t
 	desc = gaming_chess.1500.desc
 	theme = martial
-	trigger = {
-		NOT = {
-			gaming_has_opponent_trigger = yes
-		}
-	}
 	option = {
 		name = gaming_chess.1500.a
 	}
@@ -251,6 +246,9 @@ gaming_chess.1999 = {
 	theme = martial
 	trigger = {
 		gaming_has_opponent_trigger = yes
+	}
+	on_trigger_fail = {
+		trigger_event = gaming_chess.1500
 	}
 	left_portrait = {
 		character = root
@@ -293,6 +291,14 @@ gaming_chess.8000 = {
 	title = gaming_chess.8000.t
 	desc = gaming_chess.8000.desc
 	theme = martial
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:current_opponent
+		animation = happiness
+	}
 	option = {
 		name = gaming_chess.8000.a
 		gaming_end_match_effect = yes
@@ -305,6 +311,10 @@ gaming_chess.8001 = {
 	title = gaming_chess.8001.t
 	desc = gaming_chess.8001.desc
 	theme = martial
+	left_portrait = {
+		character = scope:winner
+		animation = happiness
+	}
 	option = {
 		name = gaming_chess.8001.a
 		gaming_tournament_winner_effect = yes
@@ -321,6 +331,14 @@ gaming_chess.8002 = {
 	title = gaming_chess.8002.t
 	desc = gaming_chess.8002.desc
 	theme = martial
+	left_portrait = {
+		character = scope:winner
+		animation = happiness
+	}
+	right_portrait = {
+		character = root
+		animation = sadness
+	}
 	option = {
 		name = gaming_chess.8002.a
 		gaming_tournament_loser_effect = yes
