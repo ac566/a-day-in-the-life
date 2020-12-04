@@ -1,0 +1,44 @@
+﻿l_english:
+  gaming.0999.opening:0 "[sender.Custom2('AppropriateGreeting', ROOT.Char)]"
+  gaming.0999.desc:0 "[sender.Custom2('AppropriateGreeting', ROOT.Char)] Please join me in testing the strategic mettle of the most worthy strategist in the realm."
+  gaming.0999.a:0 "Of course I will join"
+  gaming.0999.b:0 "Maybe next time"
+
+  gaming.0500.opening:0 "[recipient.Custom2('AppropriateGreeting', ROOT.Char)]"
+  gaming.0500.desc:0 "[recipient.Custom2('AppropriateGreeting', ROOT.Char)] I would love to join you."
+  gaming.0500.a:0 "Astounding, I will make preparations"
+
+  gaming.0501.opening:0 "[recipient.Custom2('AppropriateGreeting', ROOT.Char)]"
+  gaming.0501.desc:0 "[recipient.Custom2('AppropriateGreeting', ROOT.Char)] I cannot spare the time for the likes of you"
+  gaming.0501.a:0 "Maybe next time?"
+
+
+
+  gaming.1000.t:0 "Games about to begin"
+  gaming.1000.desc:0 "Which game do you want to play?"
+  gaming.1000.a:0 "Chess"
+  gaming.1000.a.tt:0 "Chess is an ancient game of strategy from India that relies heavily on both [learning|E] and [martial|E]"
+  gaming.1000.b:0 "Go"
+  gaming.1000.b.tt:0 "Go is a game from the Far East and realies heavily on one's intelligence and [learning|E]"
+  gaming.1000.c:0 "Wargame"
+  gaming.1000.c.tt:0 "Wargames are ancient and unlike either chess or go have a much clearer relationship with a player's [martial|E] prowess"
+
+
+
+  gaming.1500.t:0 "Games about to begin"
+  gaming.1500.desc:0 "Which game do you want to play?"
+  gaming.1500.a:0 "Chess"
+  gaming.1500.a.tt:0 "Chess is an ancient game of strategy from India that relies heavily on both [learning|E] and [martial|E]"
+  gaming.1500.b:0 "Go"
+  gaming.1500.b.tt:0 "Go is a game from the Far East and realies heavily on one's intelligence and [learning|E]"
+  gaming.1500.c:0 "Wargame"
+  gaming.1500.c.tt:0 "Wargames are ancient and unlike either chess or go have a much clearer relationship with a player's [martial|E] prowess"
+
+  gaming.9000.t:0 "End of Tournament"
+  gaming.9000.desc:0 "The tournament is over, and the last few guests are departing."
+  gaming.9000.a:0 "It was fun while it lasted"
+
+  gaming.9001.t:0 "End of Tournament"
+  gaming.9001.desc:0 "With the winner declare the tournament ends. The host graciously sends you off"
+  gaming.9001.a:0 "It was fun while it lasted"
+

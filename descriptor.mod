@@ -1,10 +1,11 @@
-version="0.1.0"
-tags={
+version = "0.1.0"
+tags = {
 	"Balance"
 	"Character Interactions"
 	"Gameplay"
 	"Events"
 	"Decisions"
 }
-name="A Day In the Life"
-supported_version="1.1.3"
+
+name = "A Day in the Life"
+supported_version = "1.2.*"

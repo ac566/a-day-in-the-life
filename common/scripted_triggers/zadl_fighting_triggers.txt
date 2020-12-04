@@ -1,0 +1,21 @@
+﻿fighting_competition_potential_player_trigger = {
+	is_adult = yes
+	is_imprisoned = no
+	OR = {
+		prowess >= 12
+		has_trait = lifestyle_blademaster
+		has_trait = gallant
+	}
+}
+
+fighting_competition_valid_guest_trigger = {
+	is_available_for_activity_trigger = yes
+}
+
+fighting_has_opponent_trigger = {
+	has_variable = current_opponent
+	var:current_opponent = {
+		is_alive = yes
+		is_imprisoned = no
+	}
+}

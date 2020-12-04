@@ -1,14 +1,31 @@
 ﻿####################################################
 #
-# 0001-0999 - Setup events
-# 1000-1999 - Tournament player and spectator events
-# 8000-8999 - End of round/tournament events
+# 0001-0499 - Tournament Setup
+# 0500-0999 - Invite setup
+# 1000-1499 - Player events
+# 1500-1999 - Spectator events
+# 8000-8499 - End of round/tournament
+# 8500-8999 - End of invite match
 #
 ####################################################
 namespace = gaming_wargame
-###################
-# 0001-0999 - Setup
-###################
+##############################
+# 0000-0499 - Tournament Setup
+##############################
+# Setup tournament
+gaming_wargame.0999 = {
+	type = character_event
+	hidden = yes
+	immediate = {
+		set_local_variable = {
+			name = gaming_type
+			value = gaming_type_wargame
+		}
+		gaming_tournament_initial_setup_effect = yes
+		gaming_tournament_setup_effect = yes
+	}
+}
+
 # Player start
 gaming_wargame.0001 = {
 	type = character_event
@@ -19,7 +36,7 @@ gaming_wargame.0001 = {
 		gaming_has_opponent_trigger = yes
 	}
 	on_trigger_fail = {
-		trigger_event = gaming_wargame.0500
+		trigger_event = gaming_wargame.0002
 	}
 	right_portrait = {
 		character = root
@@ -30,15 +47,36 @@ gaming_wargame.0001 = {
 		animation = happiness
 	}
 	immediate = {
-		gaming_wargame_setup_effect = yes
+		gaming_tournament_wargame_setup_effect = yes
 	}
 	option = {
 		name = gaming_wargame.0001.a
 	}
 }
 
-# Setup tournament
+# Spectators start
 gaming_wargame.0002 = {
+	type = character_event
+	title = gaming_wargame.0002.t
+	desc = gaming_wargame.0002.desc
+	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	immediate = {
+		gaming_tournament_wargame_setup_effect = yes
+	}
+	option = {
+		name = gaming_wargame.0002.a
+	}
+}
+
+##########################
+# 0500-0999 - Invite Setup
+##########################
+# Invitation match setup
+gaming_wargame.0500 = {
 	type = character_event
 	hidden = yes
 	immediate = {
@@ -46,32 +84,34 @@ gaming_wargame.0002 = {
 			name = gaming_type
 			value = gaming_type_wargame
 		}
-		gaming_initial_setup_effect = yes
-		gaming_setup_effect = yes
+		gaming_invite_setup_effect = yes
 	}
 }
 
-# Spectators start
-gaming_wargame.0500 = {
+# Invitation match start
+gaming_wargame.0501 = {
 	type = character_event
-	title = gaming_wargame.0500.t
-	desc = gaming_wargame.0500.desc
+	title = gaming_wargame.0501.t
+	desc = gaming_wargame.0501.desc
 	theme = martial
 	right_portrait = {
 		character = root
 		animation = happiness
 	}
+	left_portrait = {
+		character = root.var:current_opponent
+		animation = happiness
+	}
 	immediate = {
-		gaming_wargame_setup_effect = yes
+		gaming_invite_wargame_setup_effect = yes
 	}
 	option = {
-		name = gaming_wargame.0500.a
+		name = gaming_wargame.0501.a
 	}
 }
 
 # ################################################
-# 1001-1499 - Main events during the game activity
-# 1500-1999 - Spectator events
+# 1000-1499 - Main events during the game activity
 # ################################################
 gaming_wargame.1001 = {
 	type = character_event
@@ -275,6 +315,9 @@ gaming_wargame.1499 = {
 	}
 }
 
+##############################
+# 1500-1999 - Spectator events
+##############################
 # Spectators
 gaming_wargame.1500 = {
 	type = character_event
@@ -292,7 +335,7 @@ gaming_wargame.1500 = {
 }
 
 #######################################
-# 8000 - 8999 - Round or tournament end
+# 8000-8499 - Round or tournament end
 #######################################
 # End of match
 gaming_wargame.8000 = {
@@ -310,7 +353,7 @@ gaming_wargame.8000 = {
 	}
 	option = {
 		name = gaming_wargame.8000.a
-		gaming_end_match_effect = yes
+		gaming_tournament_end_match_effect = yes
 	}
 }
 
@@ -321,7 +364,7 @@ gaming_wargame.8001 = {
 	desc = gaming_wargame.8001.desc
 	theme = martial
 	left_portrait = {
-		character = scope:winner
+		character = root
 		animation = happiness
 	}
 	option = {
@@ -337,7 +380,7 @@ gaming_wargame.8002 = {
 	desc = gaming_wargame.8002.desc
 	theme = martial
 	left_portrait = {
-		character = scope:winner
+		character = scope:activity.var:winner
 		animation = happiness
 	}
 	right_portrait = {
@@ -347,5 +390,28 @@ gaming_wargame.8002 = {
 	option = {
 		name = gaming_wargame.8002.a
 		gaming_tournament_loser_effect = yes
+	}
+}
+
+#################################
+# 8500-8999 - End of invite match
+#################################
+# End of invtiation match
+gaming_wargame.8500 = {
+	type = character_event
+	title = gaming_wargame.8500.t
+	desc = gaming_wargame.8500.desc
+	theme = martial
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = root.var:current_opponent
+		animation = happiness
+	}
+	option = {
+		name = gaming_wargame.8500.a
+		gaming_invite_end_match_effect = yes
 	}
 }

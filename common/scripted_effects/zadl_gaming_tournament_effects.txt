@@ -1,0 +1,390 @@
+﻿#######
+# Setup
+#######
+# Sets up list of players
+gaming_tournament_initial_setup_effect = {
+	scope:activity = {
+		# Add loss counter to everyone
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+			}
+			add_to_list = active_opponents
+		}
+	}
+}
+
+# Matches each character with an opponent, then fires start and (delayed) end events
+gaming_tournament_setup_effect = {
+	scope:activity = {
+		every_in_list = {
+			list = active_opponents
+			remove_variable = current_advantage
+			remove_variable = current_opponent
+		}
+		every_in_list = {
+			list = active_opponents
+			limit = {
+				NOT = {
+					has_variable = gaming_lost
+				}
+				gaming_valid_participant_trigger = yes
+				gaming_has_opponent_trigger = no
+			}
+			save_temporary_scope_as = current_participant
+			set_variable = {
+				name = current_advantage
+				value = 0
+			}
+			# Give every participant an opponent
+			random_in_list = {
+				list = active_opponents
+				limit = {
+					NOT = {
+						has_variable = gaming_lost
+					}
+					gaming_valid_participant_trigger = yes
+					gaming_has_opponent_trigger = no
+					NOT = {
+						this = scope:current_participant
+					}
+				}
+				save_temporary_scope_as = random_participant
+				set_variable = {
+					name = current_opponent
+					value = scope:current_participant
+				}
+				scope:current_participant = {
+					set_variable = {
+						name = current_opponent
+						value = scope:random_participant
+					}
+				}
+			}
+		}
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+			}
+			# Start event loop
+			if = {
+				limit = {
+					local_var:gaming_type = gaming_type_chess
+				}
+				trigger_event = gaming_chess.0001
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_go
+				}
+				trigger_event = gaming_go.0001
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_wargame
+				}
+				trigger_event = gaming_wargame.0001
+			}
+		}
+		activity_owner = {
+			trigger_event = {
+				id = gaming.8000
+				days = max_gaming_duration
+			}
+		}
+	}
+}
+
+# Starts event loops for chess
+gaming_tournament_chess_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_chess
+	}
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_chess_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_chess_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+}
+
+# Starts event loops for go
+gaming_tournament_go_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_go
+	}
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_go_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_go_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+}
+
+# Starts event loops for wargame
+gaming_tournament_wargame_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_wargame
+	}
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		trigger_event = {
+			on_action = gaming_wargame_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+	else = {
+		trigger_event = {
+			on_action = gaming_wargame_spectator_event_selection
+			days = gaming_initial_event_delay
+		}
+	}
+}
+
+###############################
+# End of match/round/tournament
+###############################
+# Calculate match result, track who loses
+gaming_tournament_end_match_effect = {
+	if = {
+		limit = {
+			gaming_has_opponent_trigger = yes
+		}
+		# Winning
+		if = {
+			limit = {
+				var:current_advantage >= gaming_crushing_win_threshold
+			}
+			custom_tooltip = gaming_crushing_win
+			add_prestige = 40
+		}
+		else_if = {
+			limit = {
+				var:current_advantage > gaming_decisive_win_threshold
+			}
+			custom_tooltip = gaming_decisive_win
+			add_prestige = 25
+		}
+		else_if = {
+			limit = {
+				var:current_advantage > gaming_slight_win_threshold
+			}
+			custom_tooltip = gaming_slight_win
+			add_prestige = 10
+		}
+		else_if = {
+			limit = {
+				var:current_advantage = var:current_opponent.var:current_advantage
+			}
+			custom_tooltip = gaming_draw
+			add_prestige = 5
+		}
+		else = {
+			set_variable = {
+				name = gaming_lost
+				value = var:current_opponent
+			}
+			# Losing
+			if = {
+				limit = {
+					var:current_advantage < gaming_crushing_loss_threshold
+				}
+				custom_tooltip = gaming_crushing_loss
+				add_prestige = -40
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_decisive_loss_threshold
+				}
+				custom_tooltip = gaming_decisive_loss
+				add_prestige = -25
+			}
+			else_if = {
+				limit = {
+					var:current_advantage < gaming_slight_loss_threshold
+				}
+				custom_tooltip = gaming_slight_loss
+				add_prestige = 10
+			}
+		}
+	}
+}
+
+# Triggers match result event for all players, then schedules the next round
+gaming_tournament_end_round_effect = {
+	scope:activity = {
+		clear_variable_list = finished_participants
+		set_variable = {
+			name = attempted_to_end_round
+			value = 0
+		}
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+				gaming_has_opponent_trigger = yes
+			}
+			if = {
+				limit = {
+					local_var:gaming_type = gaming_type_chess
+				}
+				trigger_event = gaming_chess.8000
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_go
+				}
+				trigger_event = gaming_go.8000
+			}
+			else_if = {
+				limit = {
+					local_var:gaming_type = gaming_type_wargame
+				}
+				trigger_event = gaming_wargame.8000
+			}
+		}
+		activity_owner = {
+			trigger_event = {
+				id = gaming.8001
+				days = 5
+			}
+		}
+	}
+}
+
+# Triggers tournament result events, then schedules end of tournament event
+gaming_tournament_end_effect = {
+	scope:activity = {
+		activity_owner = {
+			trigger_event = {
+				id = gaming.9000
+				days = 3
+			}
+		}
+		every_participant = {
+			limit = {
+				gaming_valid_participant_trigger = yes
+			}
+			# Winner
+			if = {
+				limit = {
+					NOT = {
+						has_variable = gaming_lost
+					}
+				}
+				gamer_points_gain_effect = {
+					CHANGE = 4
+				}
+				if = {
+					limit = {
+						local_var:gaming_type = gaming_type_chess
+					}
+					trigger_event = gaming_chess.8001
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_go
+					}
+					trigger_event = gaming_go.8001
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_wargame
+					}
+					trigger_event = gaming_wargame.8001
+				}
+			}
+			# Losers
+			else = {
+				gamer_points_gain_effect = {
+					CHANGE = 2
+				}
+				if = {
+					limit = {
+						local_var:gaming_type = gaming_type_chess
+					}
+					trigger_event = gaming_chess.8002
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_go
+					}
+					trigger_event = gaming_go.8002
+				}
+				else_if = {
+					limit = {
+						local_var:gaming_type = gaming_type_wargame
+					}
+					trigger_event = gaming_wargame.8002
+				}
+			}
+		}
+	}
+}
+
+# Give winner some nice stuff
+gaming_tournament_winner_effect = {
+	gamer_lifestyle_rank_up_check_effect = yes
+	gaming_tournament_participant_effect = yes
+	add_prestige = 300
+}
+
+# Give loser some nice stuff
+gaming_tournament_loser_effect = {
+	gamer_lifestyle_rank_up_check_effect = yes
+	gaming_tournament_participant_effect = yes
+	add_prestige = 25
+}
+
+# Give participant some nice stuff
+gaming_tournament_participant_effect = {
+	if = {
+		limit = {
+			local_var:gaming_type = gaming_type_chess
+		}
+		add_character_modifier = {
+			modifier = gaming_chess_modifier
+			years = 5
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_go
+		}
+		add_character_modifier = {
+			modifier = gaming_go_modifier
+			years = 5
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_wargame
+		}
+		add_character_modifier = {
+			modifier = gaming_wargame_modifier
+			years = 5
+		}
+	}
+}

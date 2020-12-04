@@ -1,4 +1,4 @@
-﻿activity_gaming = {
+activity_fighting = {
 	expiration_days = 360
 	frame = 1
 	has_activity_window = yes
@@ -26,7 +26,7 @@
 				limit = {
 					exists = liege
 					liege = {
-						gaming_tournament_valid_player_trigger = yes
+						fighting_competition_valid_guest_trigger = yes
 					}
 				}
 				liege = {
@@ -34,7 +34,7 @@
 					# Invite fellow vassals
 					every_vassal = {
 						limit = {
-							gaming_tournament_valid_player_trigger = yes
+							fighting_competition_valid_guest_trigger = yes
 						}
 						add_to_temporary_list = potential_players
 					}
@@ -43,14 +43,14 @@
 			# Invite own vassals
 			every_vassal_or_below = {
 				limit = {
-					gaming_tournament_valid_player_trigger = yes
+					fighting_competition_valid_guest_trigger = yes
 				}
 				add_to_temporary_list = potential_players
 			}
 			# Invite courtiers, guests, knights
 			every_courtier_or_guest = {
 				limit = {
-					gaming_tournament_valid_player_trigger = yes
+					fighting_competition_valid_guest_trigger = yes
 				}
 				add_to_temporary_list = potential_players
 			}
@@ -61,7 +61,7 @@
 					invite_character_to_activity = prev
 				}
 				trigger_event = {
-					id = gaming.0999
+					id = fighting.0999
 					days = {
 						1
 						5
@@ -79,7 +79,7 @@
 				limit = {
 					this = scope:activity.activity_owner
 				}
-				trigger_event = gaming.1000
+				trigger_event = fighting.1000
 			}
 			# Guest
 			else = {
@@ -93,13 +93,13 @@
 		every_participant = {
 			remove_variable = current_opponent
 			remove_variable = current_advantage
-			remove_variable = gaming_lost
+			remove_variable = fighting_lost
 		}
 	}
 	# Expiration
 	on_expire = {
 		activity_owner = {
-			trigger_event = gaming.9100
+			trigger_event = fighting.9100
 		}
 	}
 	# Invalidation

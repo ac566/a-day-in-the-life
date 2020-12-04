@@ -1,250 +1,213 @@
-﻿# invite_gaming_interaction = {
-# 	category = interaction_category_friendly
-# 	desc = invite_gaming_interaction_desc
-# 	common_interaction = yes
-#   popup_on_receive = yes
-# 	greeting = positive
-# 	notification_text = INVITE_GAMING
-# 	is_shown = {
-# 		scope:actor = {
-# 			OR = {
-# 				has_focus = martial_strategy_focus
-# 				has_trait = lifestyle_gamer
-# 				has_trait = strategist
-# 			}
-# 		}
-# 		scope:recipient = {
-# 			NOT = {
-# 				this = scope:actor
-# 			}
-# 			OR = {
-# 				martial >= 12
-# 				has_trait = education_martial
-# 				has_trait = lifestyle_gamer
-# 				has_trait = strategist
-# 			}
-# 		}
-# 	}
-# 	is_valid_showing_failures_only = {
-# 		custom_description = {
-# 			text = gaming_character_unavailable
-# 			subject = scope:recipient
-# 			scope:recipient = {
-# 				is_available_for_activity_trigger = yes
-# 			}
-# 		}
-# 		custom_description = {
-# 			text = gaming_actor_recently_gamed
-# 			scope:actor = {
-# 				NOR = {
-# 					has_character_modifier = gaming_chess_modifier
-# 					has_character_modifier = gaming_go_modifier
-# 					has_character_modifier = gaming_wargame_modifier
-# 				}
-# 			}
-# 		}
-# 		custom_description = {
-# 			text = gaming_recipient_recently_gamed
-# 			subject = scope:recipient
-# 			scope:recipient = {
-# 				NOR = {
-# 					has_character_modifier = gaming_chess_modifier
-# 					has_character_modifier = gaming_go_modifier
-# 					has_character_modifier = gaming_wargame_modifier
-# 				}
-# 			}
-# 		}
-# 	}
-# 	# Can only invite one character to game at a time
-# 	can_send = {
-# 		scope:actor = {
-# 			NOT = {
-# 				exists = var:currently_gaming
-# 			}
-# 		}
-# 	}
-# 	on_send = {
-# 		# Add variable for who we are gaming with
-# 		hidden_effect = {
-# 			scope:actor = {
-# 				set_variable = {
-# 					name = currently_gaming
-# 					value = scope:recipient
-# 				}
-# 			}
-# 		}
-# 	}
-# 	on_accept = {
-# 		scope:actor = {
-# 			capital_province = {
-# 				spawn_activity = {
-# 					type = activity_gaming
-# 					owner = scope:actor
-# 				}
-# 			}
-# 			trigger_event = gaming.0001
-# 		}
-# 	}
-# 	on_decline = {
-# 		scope:actor = {
-# 			trigger_event = gaming.0002
-# 			remove_variable = currently_gaming
-# 		}
-# 	}
-# 	ai_min_reply_days = 3
-# 	ai_max_reply_days = 10
-# 	ai_accept = {
-# 		base = 0
-# 		opinion_modifier = {
-# 			opinion_target = scope:actor
-# 			who = scope:recipient
-# 			multiplier = 1
-# 			desc = AI_OPINION_REASON
-# 		}
-# 		modifier = {
-#       desc = AI_REFUSAL_RANK_DIFFERENCE
-#       scope:recipient = {
-# 				is_ruler = yes
-# 			}
-# 			NOT = {
-# 				scope:actor.primary_title.tier = scope:recipient.primary_title.tier
-# 			}
-# 			add = {
-# 				value = 0
-# 				add = scope:actor.primary_title.tier
-# 				subtract = scope:recipient.primary_title.tier
-# 				multiply = 25
-#       }
-# 		}
-# 		modifier = {
-# 			add = 25
-# 			desc = GAMING_STILL_LEARNING
-# 			scope:recipient = {
-# 				has_trait = t_gamer_1
-# 			}
-#     }
-# 		modifier = { #Distant Realm.
-# 			desc = offer_vassalization_interaction_aibehavior_distantrealm_tt
-# 			trigger = {
-# 				scope:actor = {
-# 					NOT = {
-# 						any_neighboring_top_liege_realm_owner = { this = scope:recipient }
-# 					}
-# 				}
-# 				scope:actor.capital_province = { squared_distance = { target = scope:recipient.capital_province value < 200000 } }
-# 			}
-# 			add = -25
-#     }
-# 		modifier = { #Remote Realm.
-#       desc = offer_vassalization_interaction_aibehavior_remoterealm_tt
-#       trigger = {
-#         scope:actor = {
-#           NOT = {
-#             any_neighboring_top_liege_realm_owner = { this = scope:recipient }
-#           }
-#         }
-#         scope:actor.capital_province = { squared_distance = { target = scope:recipient.capital_province value >= 200000 } }
-#       }
-#       add = -50
-#     }
-# 		modifier = {
-# 			add = -50
-# 			desc = GAMING_I_AM_GRANDMASTER
-# 			AND = {
-# 				scope:recipient = {
-# 					has_trait = t_gamer_3
-# 				}
-# 				NOT = {
-# 					scope:actor = {
-# 						has_trait = t_gamer_3
-# 					}
-# 				}
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 25
-# 			desc = GAMING_THEY_ARE_GRANDMASTER
-# 			scope:actor = {
-# 				has_trait = t_gamer_3
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 10
-# 			desc = GAMING_INTERESTED_IN_NEW
-# 			scope:recipient = {
-# 				NOT = {
-# 					has_trait = lifestyle_gamer
-# 				}
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 10
-# 			desc = GAMING_WORTHY_OPPONENT
-# 			scope:actor.martial > scope:recipient.martial
-# 			scope:recipient = {
-# 				has_trait = lifestyle_gamer
-# 			}
-# 		}
-# 		modifier = {
-# 			add = -50
-# 			desc = GAMING_UNWORTHY_OPPONENT
-# 			scope:actor.martial < scope:recipient.martial
-# 			scope:recipient = {
-# 				has_trait = lifestyle_gamer
-# 			}
-# 		}
-# 		### Relationship modifiers
-# 		modifier = {
-# 			# Friend of the Head of Faith
-# 			add = 25
-# 			desc = WE_ARE_FRIENDS
-# 			scope:recipient = {
-# 				has_relation_friend = scope:actor
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 50
-# 			desc = WE_ARE_BEST_FRIENDS
-# 			scope:recipient = {
-# 				has_relation_best_friend = scope:actor
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 10
-# 			desc = WE_ARE_LOVERS
-# 			scope:recipient = {
-# 				has_relation_lover = scope:actor
-# 			}
-# 		}
-# 		modifier = {
-# 			add = -100
-# 			desc = WE_ARE_RIVALS
-# 			scope:recipient = {
-# 				has_relation_rival = scope:actor
-# 			}
-# 		}
-# 		modifier = {
-# 			add = -500
-# 			desc = WE_ARE_NEMESES
-# 			scope:recipient = {
-# 				has_relation_nemesis = scope:actor
-# 			}
-# 		}
-# 	}
-# 	ai_targets = {
-# 		ai_recipients = realm_characters
-# 		chance = 0.25
-# 	}
-# 	ai_target_quick_trigger = {
-# 		adult = yes
-# 		prison = no
-# 	}
-# 	ai_frequency = 18
-# 	ai_potential = {
-# 		is_landed = yes
-# 		martial >= 8
-# 	}
-# 	ai_will_do = {
-# 		base = -1000
-# 	}
-# }
+﻿invite_gaming_interaction = {
+	category = interaction_category_friendly
+	desc = invite_gaming_interaction_desc
+	common_interaction = yes
+	popup_on_receive = yes
+	greeting = positive
+	notification_text = INVITE_GAMING
+	cooldown = {
+		days = short_character_interaction_cooldown_time
+	}
+	is_shown = {
+		scope:actor = {
+			OR = {
+				has_focus = martial_strategy_focus
+				has_trait = lifestyle_gamer
+				has_trait = strategist
+			}
+		}
+		scope:recipient = {
+			NOT = {
+				this = scope:actor
+			}
+			OR = {
+				martial >= 12
+				has_trait = education_martial
+				has_trait = lifestyle_gamer
+				has_trait = strategist
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_description = {
+			text = gaming_character_unavailable
+			subject = scope:recipient
+			scope:recipient = {
+				is_available_for_activity_trigger = yes
+			}
+		}
+	}
+	# Can only invite one character to game at a time
+	can_send = {
+		scope:actor = {
+			NOT = {
+				exists = var:currently_gaming
+			}
+		}
+	}
+	on_send = {
+		# Add variable for who we are gaming with
+		hidden_effect = {
+			scope:actor = {
+				set_variable = {
+					name = currently_gaming
+					value = scope:recipient
+				}
+			}
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			trigger_event = gaming.0500
+			set_variable = {
+				name = current_opponent
+				value = scope:recipient
+			}
+			remove_variable = currently_gaming
+		}
+		scope:recipient = {
+			set_variable = {
+				name = current_opponent
+				value = scope:actor
+			}
+		}
+	}
+	on_decline = {
+		scope:actor = {
+			trigger_event = gaming.0501
+			remove_variable = currently_gaming
+		}
+	}
+	ai_min_reply_days = 3
+	ai_max_reply_days = 10
+	ai_accept = {
+		base = 0
+		opinion_modifier = {
+			opinion_target = scope:actor
+			who = scope:recipient
+			multiplier = 1
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			desc = AI_REFUSAL_RANK_DIFFERENCE
+			scope:recipient = {
+				is_ruler = yes
+			}
+			NOT = {
+				scope:actor.primary_title.tier = scope:recipient.primary_title.tier
+			}
+			add = {
+				value = 0
+				add = scope:actor.primary_title.tier
+				subtract = scope:recipient.primary_title.tier
+				multiply = 25
+			}
+		}
+		modifier = {
+			add = 25
+			desc = GAMING_STILL_LEARNING
+			scope:recipient = {
+				has_trait = t_gamer_1
+			}
+		}
+		modifier = {
+			add = -50
+			desc = GAMING_I_AM_GRANDMASTER
+			AND = {
+				scope:recipient = {
+					has_trait = t_gamer_3
+				}
+				NOT = {
+					scope:actor = {
+						has_trait = t_gamer_3
+					}
+				}
+			}
+		}
+		modifier = {
+			add = 25
+			desc = GAMING_THEY_ARE_GRANDMASTER
+			scope:actor = {
+				has_trait = t_gamer_3
+			}
+		}
+		modifier = {
+			add = 10
+			desc = GAMING_INTERESTED_IN_NEW
+			scope:recipient = {
+				NOT = {
+					has_trait = lifestyle_gamer
+				}
+			}
+		}
+		modifier = {
+			add = 10
+			desc = GAMING_WORTHY_OPPONENT
+			scope:actor.martial > scope:recipient.martial
+			scope:recipient = {
+				has_trait = lifestyle_gamer
+			}
+		}
+		modifier = {
+			add = -50
+			desc = GAMING_UNWORTHY_OPPONENT
+			scope:actor.martial < scope:recipient.martial
+			scope:recipient = {
+				has_trait = lifestyle_gamer
+			}
+		}
+		### Relationship modifiers
+		modifier = {
+			# Friend of the Head of Faith
+			add = 25
+			desc = WE_ARE_FRIENDS
+			scope:recipient = {
+				has_relation_friend = scope:actor
+			}
+		}
+		modifier = {
+			add = 50
+			desc = WE_ARE_BEST_FRIENDS
+			scope:recipient = {
+				has_relation_best_friend = scope:actor
+			}
+		}
+		modifier = {
+			add = 10
+			desc = WE_ARE_LOVERS
+			scope:recipient = {
+				has_relation_lover = scope:actor
+			}
+		}
+		modifier = {
+			add = -100
+			desc = WE_ARE_RIVALS
+			scope:recipient = {
+				has_relation_rival = scope:actor
+			}
+		}
+		modifier = {
+			add = -500
+			desc = WE_ARE_NEMESES
+			scope:recipient = {
+				has_relation_nemesis = scope:actor
+			}
+		}
+	}
+	ai_targets = {
+		ai_recipients = realm_characters
+		chance = 0.25
+	}
+	ai_target_quick_trigger = {
+		adult = yes
+		prison = no
+	}
+	ai_frequency = 18
+	ai_potential = {
+		is_landed = yes
+		martial >= 8
+	}
+	ai_will_do = {
+		base = -1000
+	}
+}

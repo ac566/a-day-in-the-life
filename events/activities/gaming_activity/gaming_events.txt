@@ -11,12 +11,12 @@ namespace = gaming
 # 0001-0999 - Invitations and Responses
 #######################################
 ## Invite guest to tournament
-gaming.0001 = {
+gaming.0999 = {
 	type = letter_event
 	opening = {
-		desc = gaming.0001.opening
+		desc = gaming.0999.opening
 	}
-	desc = gaming.0001.desc
+	desc = gaming.0999.desc
 	sender = scope:sender
 	# Check if character is still valid
 	trigger = {
@@ -33,7 +33,7 @@ gaming.0001 = {
 				exists = var:is_handling_gaming_tournament_invitation
 			}
 			trigger_event = {
-				id = gaming.0001
+				id = gaming.0999
 				days = 1
 			}
 		}
@@ -52,7 +52,7 @@ gaming.0001 = {
 	# Options
 	## Accept
 	option = {
-		name = gaming.0001.a
+		name = gaming.0999.a
 		scope:activity = {
 			accept_invitation_for_character = prev
 		}
@@ -73,7 +73,7 @@ gaming.0001 = {
 	}
 	## Decline
 	option = {
-		name = gaming.0001.b
+		name = gaming.0999.b
 		scope:activity = {
 			decline_invitation_for_character = prev
 		}
@@ -94,6 +94,38 @@ gaming.0001 = {
 	# After
 	after = {
 		remove_variable = is_handling_gaming_tournament_invitation
+	}
+}
+
+# Character accepts match invite
+gaming.0500 = {
+	type = letter_event
+	opening = {
+		desc = gaming.0500.opening
+	}
+	desc = gaming.0500.desc
+	sender = scope:recipient
+	option = {
+		name = gaming.0500.a
+	}
+	after = {
+		trigger_event = {
+			id = gaming.1500
+			days = 5
+		}
+	}
+}
+
+# Character declines match invite
+gaming.0501 = {
+	type = letter_event
+	opening = {
+		desc = gaming.0501.opening
+	}
+	desc = gaming.0501.desc
+	sender = scope:recipient
+	option = {
+		name = gaming.0501.a
 	}
 }
 
@@ -118,7 +150,7 @@ gaming.1000 = {
 	option = {
 		name = gaming.1000.a
 		custom_tooltip = gaming.1000.a.tt
-		trigger_event = gaming_chess.0002
+		trigger_event = gaming_chess.0999
 		# AI
 		ai_chance = {
 			base = 0
@@ -135,7 +167,7 @@ gaming.1000 = {
 	option = {
 		name = gaming.1000.b
 		custom_tooltip = gaming.1000.b.tt
-		trigger_event = gaming_go.0002
+		trigger_event = gaming_go.0999
 		# AI
 		ai_chance = {
 			base = 0
@@ -151,7 +183,73 @@ gaming.1000 = {
 	option = {
 		name = gaming.1000.c
 		custom_tooltip = gaming.1000.c.tt
-		trigger_event = gaming_wargame.0002
+		trigger_event = gaming_wargame.0999
+		# AI
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = {
+					add = root.martial
+					multiply = 2
+				}
+			}
+		}
+	}
+}
+
+# Invitation startup
+gaming.1500 = {
+	type = character_event
+	title = gaming.1500.t
+	desc = gaming.1500.desc
+	theme = martial
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+	left_portrait = {
+		character = var:gaming_opponent
+		animation = happiness
+	}
+	# Give options to decide which game to play
+	## Chess
+	option = {
+		name = gaming.1500.a
+		custom_tooltip = gaming.1500.a.tt
+		trigger_event = gaming_chess.0500
+		# AI
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = {
+					add = root.martial
+					add = root.learning
+					divide = 2
+				}
+			}
+		}
+	}
+	## Go
+	option = {
+		name = gaming.1500.b
+		custom_tooltip = gaming.1500.b.tt
+		trigger_event = gaming_go.0500
+		# AI
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = {
+					add = root.learning
+					multiply = 2
+				}
+			}
+		}
+	}
+	## Wargame
+	option = {
+		name = gaming.1500.c
+		custom_tooltip = gaming.1500.c.tt
+		trigger_event = gaming_wargame.0500
 		# AI
 		ai_chance = {
 			base = 0
@@ -214,7 +312,7 @@ gaming.8000 = {
 					}
 				}
 			}
-			gaming_end_round_effect = yes
+			gaming_tournament_end_round_effect = yes
 		}
 		# Retrigger the event in the future, hopefully people click their events
 		else = {
@@ -275,12 +373,78 @@ gaming.8001 = {
 				}
 				any_in_list = {
 					list = winners
+					count = 1
 					save_scope_as = winner
+					scope:activity = {
+						set_variable = {
+							name = winner
+							value = scope:winner
+						}
+					}
 				}
-				gaming_end_tournament_effect = yes
+				gaming_tournament_end_effect = yes
 			}
 			else = {
-				gaming_setup_effect = yes
+				gaming_tournament_setup_effect = yes
+			}
+		}
+	}
+}
+
+# Invitation end match
+gaming.8500 = {
+	type = character_event
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						is_target_in_variable_list = {
+							name = finished_participants
+							target = root
+						}
+						is_target_in_variable_list = {
+							name = finished_participants
+							target = root.var:current_opponent
+						}
+					}
+					AND = {
+						trigger_if = {
+							limit = {
+								exists = var:attempted_to_end_round
+							}
+							var:attempted_to_end_round > 2
+						}
+						trigger_else = {
+							always = no
+						}
+					}
+				}
+			}
+			gaming_invite_end_effect = yes
+		}
+		else = {
+			if = {
+				limit = {
+					NOT = {
+						exists = var:attempted_to_end_round
+					}
+				}
+				set_variable = {
+					name = attempted_to_end_round
+					value = 1
+				}
+			}
+			else = {
+				change_variable = {
+					name = attempted_to_end_round
+					add = 1
+				}
+			}
+			trigger_event = {
+				id = gaming.8500
+				days = 5
 			}
 		}
 	}

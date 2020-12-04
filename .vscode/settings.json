@@ -1,7 +1,4 @@
 {
-  "files.exclude": {
-    "*.mod": true
-  },
   "[ck3]": {
     "files.autoGuessEncoding": true,
     "files.encoding": "utf8bom",

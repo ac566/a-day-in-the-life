@@ -1,0 +1,193 @@
+﻿#######
+# Setup
+#######
+gaming_invite_setup_effect = {
+	add_to_list = match_participants
+	gamer_points_gain_effect = {
+		CHANGE = 2
+	}
+	var:current_opponent = {
+		add_to_list = match_participants
+		gamer_points_gain_effect = {
+			CHANGE = 1
+		}
+	}
+	every_in_list = {
+		list = match_participants
+		set_variable = {
+			name = current_advantage
+			value = 0
+		}
+		# Start event loop
+		if = {
+			limit = {
+				local_var:gaming_type = gaming_type_chess
+			}
+			trigger_event = gaming_chess.0501
+		}
+		else_if = {
+			limit = {
+				local_var:gaming_type = gaming_type_go
+			}
+			trigger_event = gaming_go.0501
+		}
+		else_if = {
+			limit = {
+				local_var:gaming_type = gaming_type_wargame
+			}
+			trigger_event = gaming_wargame.0501
+		}
+	}
+	trigger_event = {
+		id = gaming.8500
+		days = max_gaming_duration
+	}
+}
+
+gaming_invite_chess_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_chess
+	}
+	trigger_event = {
+		on_action = gaming_chess_event_selection
+		days = gaming_initial_event_delay
+	}
+}
+
+gaming_invite_go_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_go
+	}
+	trigger_event = {
+		on_action = gaming_go_event_selection
+		days = gaming_initial_event_delay
+	}
+}
+
+gaming_invite_wargame_setup_effect = {
+	set_local_variable = {
+		name = gaming_type
+		value = gaming_type_wargame
+	}
+	trigger_event = {
+		on_action = gaming_wargame_event_selection
+		days = gaming_initial_event_delay
+	}
+}
+
+#############
+# End effects
+#############
+gaming_invite_end_effect = {
+	every_in_list = {
+		list = match_participants
+		if = {
+			limit = {
+				local_var:gaming_type = gaming_type_chess
+			}
+			trigger_event = gaming_chess.8500
+		}
+		else_if = {
+			limit = {
+				local_var:gaming_type = gaming_type_go
+			}
+			trigger_event = gaming_go.8500
+		}
+		else_if = {
+			limit = {
+				local_var:gaming_type = gaming_type_wargame
+			}
+			trigger_event = gaming_wargame.8500
+		}
+	}
+}
+
+gaming_invite_participant_effect = {
+	if = {
+		limit = {
+			local_var:gaming_type = gaming_type_chess
+		}
+		add_character_modifier = {
+			modifier = gaming_chess_modifier
+			years = 1
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_go
+		}
+		add_character_modifier = {
+			modifier = gaming_go_modifier
+			years = 1
+		}
+	}
+	else_if = {
+		limit = {
+			local_var:gaming_type = gaming_type_wargame
+		}
+		add_character_modifier = {
+			modifier = gaming_wargame_modifier
+			years = 1
+		}
+	}
+}
+
+# Calculate match result, track who loses
+gaming_invite_end_match_effect = {
+	gamer_lifestyle_rank_up_check_effect = yes
+	gaming_invite_participant_effect = yes
+	# Winning
+	if = {
+		limit = {
+			var:current_advantage >= gaming_crushing_win_threshold
+		}
+		custom_tooltip = gaming_crushing_win
+		add_prestige = 40
+	}
+	else_if = {
+		limit = {
+			var:current_advantage > gaming_decisive_win_threshold
+		}
+		custom_tooltip = gaming_decisive_win
+		add_prestige = 25
+	}
+	else_if = {
+		limit = {
+			var:current_advantage > gaming_slight_win_threshold
+		}
+		custom_tooltip = gaming_slight_win
+		add_prestige = 10
+	}
+	else_if = {
+		limit = {
+			var:current_advantage = var:current_opponent.var:current_advantage
+		}
+		custom_tooltip = gaming_draw
+		add_prestige = 5
+	}
+	# Losing
+	else_if = {
+		limit = {
+			var:current_advantage < gaming_crushing_loss_threshold
+		}
+		custom_tooltip = gaming_crushing_loss
+		add_prestige = -40
+	}
+	else_if = {
+		limit = {
+			var:current_advantage < gaming_decisive_loss_threshold
+		}
+		custom_tooltip = gaming_decisive_loss
+		add_prestige = -25
+	}
+	else_if = {
+		limit = {
+			var:current_advantage < gaming_slight_loss_threshold
+		}
+		custom_tooltip = gaming_slight_loss
+		add_prestige = 10
+	}
+	remove_variable = current_opponent
+}

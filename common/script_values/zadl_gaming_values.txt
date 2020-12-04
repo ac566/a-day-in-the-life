@@ -4,8 +4,8 @@ max_default_gaming_events = 1
 chance_of_extra_gaming_events = 0
 # Spacing
 gaming_initial_event_delay = 5
-min_gaming_event_spacing = 3
-max_gaming_event_spacing = 8
+min_gaming_event_spacing = 5
+max_gaming_event_spacing = 10
 max_gaming_duration = {
 	value = 0
 	add = max_gaming_event_spacing
@@ -19,8 +19,16 @@ gamer_rank_up_1_threshold = 8
 gamer_rank_up_2_threshold = 16
 gamer_rank_up_3_threshold = 24
 # Stress Loss
-gaming_stress_loss_value = -30
-standard_gaming_tournament_cooldown_time = 1825
+small_activity_stress_loss_value = -10
+medium_activity_stress_loss_value = -30
+large_activity_stress_loss_value = -50
+# Cooldowns
+short_activity_cooldown_time = 1095
+medium_activity_cooldown_time = 1825
+long_activity_cooldown_time = 3650
+short_character_interaction_cooldown_time = 90
+medium_character_interaction_cooldown_time = 180
+long_character_interaction_cooldown_time = 365
 # Game type enumeration
 gaming_type_chess = 0
 gaming_type_go = 1

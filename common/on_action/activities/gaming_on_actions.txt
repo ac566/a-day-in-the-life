@@ -6,9 +6,6 @@ gaming_start_events = {
 }
 
 gaming_chess_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_chess.1001
 		10 = gaming_chess.1002
@@ -18,18 +15,12 @@ gaming_chess_event_selection = {
 }
 
 gaming_chess_spectator_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_chess.1500
 	}
 }
 
 gaming_wargame_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_wargame.1001
 		10 = gaming_wargame.1002
@@ -39,18 +30,12 @@ gaming_wargame_event_selection = {
 }
 
 gaming_wargame_spectator_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_wargame.1500
 	}
 }
 
 gaming_go_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_go.1001
 		10 = gaming_go.1002
@@ -60,9 +45,6 @@ gaming_go_event_selection = {
 }
 
 gaming_go_spectator_event_selection = {
-	trigger = {
-		exists = scope:activity
-	}
 	random_events = {
 		10 = gaming_go.1500
 	}

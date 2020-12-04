@@ -1,20 +1,20 @@
-﻿hold_gaming_tournament_decision = {
+﻿hold_fighting_competition_decision = {
 	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"
 	ai_check_interval = 60
 	cost = {
 		gold = standard_activity_cost
 	}
 	cooldown = {
-		days = medium_activty_cooldown_time
+		days = medium_activity_cooldown_time
 	}
-	desc = hold_gaming_tournament_decision_desc
-	selection_tooltip = hold_gaming_tournament_decision_tooltip
+	desc = hold_fighting_competition_decision_desc
+	selection_tooltip = hold_fighting_competition_decision_tooltip
 	is_shown = {
 		is_landed = yes
 		highest_held_title_tier > tier_county
 		OR = {
-			has_focus = martial_strategy_focus
-			has_trait = lifestyle_gamer
+			has_focus = martial_chivalry_focus
+			has_trait = lifestyle_blademaster
 		}
 	}
 	is_valid_showing_failures_only = {
@@ -23,27 +23,27 @@
 	effect = {
 		capital_province = {
 			spawn_activity = {
-				type = activity_gaming
+				type = activity_fighting
 				owner = root
 			}
 		}
 		if = {
 			limit = {
-				has_trait = strategist
-				has_trait = t_gamer_1
-				has_trait = t_gamer_2
-				has_trait = t_gamer_3
-				has_trait = impatient
-				has_trait = patient
+				has_trait = gallant
+				has_trait = blademaster_1
+				has_trait = blademaster_2
+				has_trait = blademaster_3
+				has_trait = brave
+				has_trait = craven
 			}
 			stress_impact = {
 				base = medium_activity_stress_loss_value
 				strategist = activity_stress_loss_impact
-				t_gamer_1 = activity_stress_loss_impact
-				t_gamer_2 = activity_stress_loss_impact
-				t_gamer_3 = activity_stress_loss_impact
-				patient = activity_stress_loss_impact
-				impatient = activity_stress_gain_impact
+				blademaster_1 = activity_stress_loss_impact
+				blademaster_2 = activity_stress_loss_impact
+				blademaster_3 = activity_stress_loss_impact
+				brave = activity_stress_loss_impact
+				craven = activity_stress_gain_impact
 			}
 		}
 	}

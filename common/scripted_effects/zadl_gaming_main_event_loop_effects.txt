@@ -8,7 +8,7 @@ gaming_event_loop_effect = {
 		}
 		set_variable = {
 			name = num_gaming_events
-			value = 0
+			value = 1
 		}
 		gaming_fire_correct_or_default_event_effect = yes
 	}
@@ -113,121 +113,21 @@ gaming_fire_correct_or_default_event_effect = {
 gaming_events_end_effect = {
 	remove_variable = num_gaming_events
 	save_temporary_scope_as = finished_participant
-	scope:activity = {
+	if = {
+		limit = {
+			exists = scope:activity
+		}
+		scope:activity = {
+			add_to_variable_list = {
+				name = finished_participants
+				target = scope:finished_participant
+			}
+		}
+	}
+	else = {
 		add_to_variable_list = {
 			name = finished_participants
 			target = scope:finished_participant
-		}
-	}
-}
-
-# Triggers match result event for all players, then schedules the next round
-gaming_end_round_effect = {
-	scope:activity = {
-		clear_variable_list = finished_participants
-		set_variable = {
-			name = attempted_to_end_round
-			value = 0
-		}
-		every_participant = {
-			limit = {
-				gaming_valid_participant_trigger = yes
-				gaming_has_opponent_trigger = yes
-			}
-			if = {
-				limit = {
-					local_var:gaming_type = gaming_type_chess
-				}
-				trigger_event = gaming_chess.8000
-			}
-			else_if = {
-				limit = {
-					local_var:gaming_type = gaming_type_go
-				}
-				trigger_event = gaming_go.8000
-			}
-			else_if = {
-				limit = {
-					local_var:gaming_type = gaming_type_wargame
-				}
-				trigger_event = gaming_wargame.8000
-			}
-		}
-		activity_owner = {
-			trigger_event = {
-				id = gaming.8001
-				days = 5
-			}
-		}
-	}
-}
-
-# Triggers tournament result events, then schedules end of tournament event
-gaming_end_tournament_effect = {
-	scope:activity = {
-		activity_owner = {
-			trigger_event = {
-				id = gaming.9000
-				days = 3
-			}
-		}
-		every_participant = {
-			limit = {
-				gaming_valid_participant_trigger = yes
-			}
-			# Winner
-			if = {
-				limit = {
-					NOT = {
-						has_variable = gaming_lost
-					}
-				}
-				gamer_points_gain_effect = {
-					CHANGE = 4
-				}
-				if = {
-					limit = {
-						local_var:gaming_type = gaming_type_chess
-					}
-					trigger_event = gaming_chess.8001
-				}
-				else_if = {
-					limit = {
-						local_var:gaming_type = gaming_type_go
-					}
-					trigger_event = gaming_go.8001
-				}
-				else_if = {
-					limit = {
-						local_var:gaming_type = gaming_type_wargame
-					}
-					trigger_event = gaming_wargame.8001
-				}
-			}
-			# Losers
-			else = {
-				gamer_points_gain_effect = {
-					CHANGE = 2
-				}
-				if = {
-					limit = {
-						local_var:gaming_type = gaming_type_chess
-					}
-					trigger_event = gaming_chess.8002
-				}
-				else_if = {
-					limit = {
-						local_var:gaming_type = gaming_type_go
-					}
-					trigger_event = gaming_go.8002
-				}
-				else_if = {
-					limit = {
-						local_var:gaming_type = gaming_type_wargame
-					}
-					trigger_event = gaming_wargame.8002
-				}
-			}
 		}
 	}
 }
